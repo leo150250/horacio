@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333333 4.2333333"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="iconeSalvar.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="true"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="31.786133"
+     inkscape:cx="8.0223661"
+     inkscape:cy="9.4380778"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid326"
+       spacingx="3.175"
+       spacingy="3.7041667"
+       empspacing="6"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect1207"
+       style="fill:#ffffff;stroke-width:0.529167;stroke-linecap:round;stop-color:#000000;stroke:none"
+       d="M 0.4909261 0.30799153 C 0.38025217 0.30799153 0.29145508 0.39730539 0.29145508 0.50797933 L 0.29145508 3.8121704 C 0.29145508 3.9228443 0.38025217 4.0121582 0.4909261 4.0121582 L 3.7207031 4.0121582 C 3.831377 4.0121582 3.9206909 3.9228443 3.9206909 3.8121704 L 3.9206909 0.50797933 C 3.9206909 0.39730539 3.831377 0.30799153 3.7207031 0.30799153 L 0.4909261 0.30799153 z M 0.63200276 0.469222 L 3.5801432 0.469222 C 3.6811712 0.469222 3.762561 0.55061177 3.762561 0.65163981 L 3.762561 3.6685099 C 3.762561 3.7695379 3.6811712 3.8509277 3.5801432 3.8509277 L 0.63200276 3.8509277 C 0.53097472 3.8509277 0.44958496 3.7695379 0.44958496 3.6685099 L 0.44958496 0.65163981 C 0.44958496 0.55061177 0.53097472 0.469222 0.63200276 0.469222 z " />
+    <path
+       id="rect1212"
+       style="fill:#ffffff;stroke:none;stroke-width:0.529167;stroke-linecap:round;stop-color:#000000"
+       d="M 0.83250732 0.39945882 L 0.83250732 2.1166667 L 3.3796386 2.1166667 L 3.3796386 0.39945882 L 2.8633911 0.39945882 L 2.8633911 1.5921509 L 2.3641968 1.5921509 L 2.3641968 0.39945882 L 0.83250732 0.39945882 z " />
+  </g>
+</svg>

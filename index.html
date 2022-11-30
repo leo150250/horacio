@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <title>Protótipo Gestão de Horários</title>
+        <link href="estilo.css" type="text/css" rel="stylesheet">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="status">
+        </div>
+        <div id="conteudo">
+            <div class="flex largo">
+                <div>
+                    <h2>Grades horárias</h2>
+                    <div class="flex largo">
+                        <div class="card" style="text-align: center">
+                            <span class="grande">2</span><br>
+                            Grades
+                        </div>
+                        <div class="card" style="text-align: center">
+                            <span class="grande">16</span><br>
+                            Turmas
+                        </div>
+                        <div class="card" style="text-align: center">
+                            <span class="grande">30</span><br>
+                            Docentes
+                        </div>
+                        <div class="card" style="text-align: center">
+                            <span class="grande">42</span><br>
+                            Disciplinas
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2>Calendário</h2>
+                    <div id="calendarioMes"></div>
+                </div>
+                <div>
+                    <h2>Comunicados</h2>
+                    <ul class="comunicados">
+                        <li><b>19/11/2022, 12:00 - Por SISTEMA</b><br>Gestores, ainda há horários vagos nas grades ativas atualmente, após a conclusão da etapa de sugestões. Por favor, analisem.</li>
+                        <li><b>17/11/2022, 14:36 - Por Fulano</b><br>Pessoal, o horário escolar base está pronto e está na fase de sugestões. Até quinta-feira, por favor, analisem, sugiram e negociem os horários que vocês preferirem.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Logo</h2>
+                    <img src="imagens/logoInstituicao.png" class="logoInstituicao">
+                </div>
+            </div>
+        </div>
+        <script src="horarios.js"></script>
+        <script src="chat.js"></script>
+        <script src="mascote.js"></script>
+        <script src="menu.js"></script>
+        <script>
+            var etapa = 0;
+            //var updateEtapa = setInterval(atualizarEtapa,1000);
+            var dataPrazoEtapa=new Date(2022, 11, 11, 13, 0, 0);
+            balaoMascote("Parece que você está tentando construir um horário escolar. Precisa de ajuda?",[["Sim","balaoMascote('Para começar, clique aqui no menu e depois, clique em \"Gestão\"!',[['Ok',null]],\"wrapperMenu\",\"obterAjuda()\")"],["Não",null]]);
+            setTimeout(aparecerMascote,1000);
+            
+            var dataAtual=new Date();
+            var table_calendario=document.createElement("table");
+            table_calendario.classList.add("calendarioMes");
+            let novaLinha=document.createElement("tr");
+            for (let i=0; i<7; i++) {
+                let novaCelula=document.createElement("th");
+                switch (i) {
+                    case 0: novaCelula.innerHTML="DOM"; break;
+                    case 1: novaCelula.innerHTML="SEG"; break;
+                    case 2: novaCelula.innerHTML="TER"; break;
+                    case 3: novaCelula.innerHTML="QUA"; break;
+                    case 4: novaCelula.innerHTML="QUI"; break;
+                    case 5: novaCelula.innerHTML="SEX"; break;
+                    case 6: novaCelula.innerHTML="SÁB"; break;
+                }
+                novaLinha.appendChild(novaCelula);
+            }
+            table_calendario.appendChild(novaLinha);
+            let primeiroDia=new Date(dataAtual.getFullYear(),dataAtual.getMonth(),1);
+            primeiroDia.setDate(primeiroDia.getDate() - primeiroDia.getDay());
+            for (let linha=0; linha<6; linha++) {
+                novaLinha=document.createElement("tr");
+                for (let dia=0; dia<7; dia++) {
+                    let novaCelula=document.createElement("td");
+                    novaCelula.innerHTML=primeiroDia.getDate();
+                    if (primeiroDia.getMonth()!=dataAtual.getMonth()) {
+                        novaCelula.classList.add("outroMes");
+                    }
+                    if (primeiroDia.getDate()==dataAtual.getDate()) {
+                        novaCelula.classList.add("diaAtual");
+                    }
+                    novaLinha.appendChild(novaCelula);
+                    primeiroDia.setDate(primeiroDia.getDate() + 1);
+                }
+                table_calendario.appendChild(novaLinha);   
+            }
+            document.getElementById("calendarioMes").appendChild(table_calendario);
+        </script>
+    </body>
+</html>

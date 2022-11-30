@@ -1,0 +1,136 @@
+<html>
+    <head>
+        <title>Protótipo Gestão de Horários</title>
+        <link href="estilo.css" type="text/css" rel="stylesheet">
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div id="conteudo">
+            <div id="escolhaCriacao">
+                <h1>Vamos criar um novo horário escolar</h1>
+                <p>Como você gostaria de criar a grade?</p>
+                <div class="flex largo">
+                    <button onclick="abrirForm()">
+                        <h2>Automático</h2>
+                        <img src="imagens/criacao_auto.svg">
+                        <p>Escolha algumas opções, e o software irá criar uma grade procedural inicial de forma automática para você, podendo ser alterada à vontade depois.</p>
+                    </button>
+                    <button onclick="abrirEditorGrade()">
+                        <h2>Manual</h2>
+                        <img src="imagens/criacao_manual.svg">
+                        <p>Tenha controle total sobre cada linha e coluna de sua grade desde o início, com funções para auxiliá-lo na conclusão da tarefa.</p>
+                    </button>
+                </div>
+            </div>
+            <div id="formCriacao" style="display:none">
+                <h1>Criação automática - Horários</h1>
+                <div class="flex largo">
+                    <div class="scroller" style="flex-basis: 0em">
+                        <span class="form">
+                            <label>Dias da semana</label>
+                            <div class="flex checkbox">
+                                <input id="diasSemana_dom" type="checkbox" onchange="autoAtualizarDias()">
+                                <label for="diasSemana_dom">DOM</label>
+                                <input id="diasSemana_seg" type="checkbox" onchange="autoAtualizarDias()" checked>
+                                <label for="diasSemana_seg">SEG</label>
+                                <input id="diasSemana_ter" type="checkbox" onchange="autoAtualizarDias()" checked>
+                                <label for="diasSemana_ter">TER</label>
+                                <input id="diasSemana_qua" type="checkbox" onchange="autoAtualizarDias()" checked>
+                                <label for="diasSemana_qua">QUA</label>
+                                <input id="diasSemana_qui" type="checkbox" onchange="autoAtualizarDias()" checked>
+                                <label for="diasSemana_qui">QUI</label>
+                                <input id="diasSemana_sex" type="checkbox" onchange="autoAtualizarDias()" checked>
+                                <label for="diasSemana_sex">SEX</label>
+                                <input id="diasSemana_sab" type="checkbox" onchange="autoAtualizarDias()">
+                                <label for="diasSemana_sab">SÁB</label>
+                            </div> 
+                        </span>
+                        <h2>Turno #1</h2>
+                        <div class="flex">
+                            <span class="form"><label>Horário de início</label><input id="horario_t1" type="time" value="07:30" onchange="autoAtualizarTurnos()" required></span>
+                            <span class="form"><label>Nº de aulas</label><input id="aulas_t1" type="number" min="1" max="10" value="5" onchange="autoAtualizarTurnos()" required></span>
+                            <span class="form"><label>Duração da aula</label><input id="duracao_t1" type="number" min="5" max="180" value="50" onchange="autoAtualizarTurnos()" required><small>minutos</small></span>
+                            <span class="form"><label>Nº de aulas antes do intervalo</label><input id="aulasIntervalo_t1" type="number" min="1" max="10" value="3" onchange="autoAtualizarTurnos()" required></span>
+                            <span class="form"><label>Duração do intervalo</label><input id="duracaoIntervalo_t1" type="number" min="5" max="180" value="10" onchange="autoAtualizarTurnos()" required><small>minutos</small></span>
+                        </div>
+                        <div id="turnosAdicionais"></div>
+                        <button id="botaoNovoTurno" onclick="adicionarNovoTurno()"><img src="imagens/adicao.svg"> Adicionar um novo turno</button>
+                    </div>
+                    <div style="flex-basis: 50%">
+                        <h2>Pré-visualização</h2>
+                        <div class="wrapperCalendario" id="wrapperCalendarioTurnos"></div>
+                    </div>
+                </div>
+                <p style="text-align: right"><button onclick="abrirFormTurmas()">Avançar</button></p>
+            </div>
+            <div id="formTurmas" style="display:none">
+                <h1>Criação automática - Turmas</h1>
+                <div class="flex largo">
+                    <div class="scroller" style="flex-basis: 20em">
+                        <h2>Inserção de turmas</h2>
+                        <p>Digite o nome das turmas abaixo</p>
+                        <p><span class="form"><label>Turma #1</label><input id="nomeTurma_1" type="text" onchange="autoAtualizarTurmas()" required style="width: 100%"></span><small>Aperte ENTER para aplicar, e adicionar mais turmas</small></p>
+                        <div id="turmasAdicionais"></div>
+                    </div>
+                    <div style="flex-basis: 50%">
+                        <h2>Pré-visualização</h2>
+                        <div class="wrapperCalendario" id="wrapperCalendarioTurmas"></div>
+                    </div>
+                </div>
+                <p style="text-align: right">
+                    <button class="secundario" onclick="abrirForm()">Voltar</button>
+                    <button id="botaoConcluirEdicao" disabled onclick="abrirConfirmacao()">Avançar</button>
+                </p>
+            </div>
+            <div id="formConfirmacao" style="display:none">
+                <h1>Criação automática - Confirmar</h1>
+                <p>Confira os dados para a criação desta grade horária abaixo e, clique em "Confirmar", no rodapé da página, para prosseguir para edição e preenchimento.</p>
+                <div class="wrapperCalendario" id="wrapperCalendarioConfirmar"></div>
+                <p style="text-align: right">
+                    <button class="secundario" onclick="abrirFormTurmas()">Voltar</button>
+                    <button onclick="abrirEditorGrade()"><img src="imagens/confirmar.svg">Confirmar e criar</button>
+                </p>
+            </div>
+            <div id="formEditorGrade" style="display:none">
+                <h1>Edição da grade horária</h1>
+                <div id="wrapperEditorGrade">
+                    <div id="editToolbar">
+                        <button title="Nova grade"><img src="imagens/iconeNovo.svg"></button>
+                        <button title="Abrir grade"><img src="imagens/iconeAbrir.svg"></button>
+                        <button title="Salvar grade"><img src="imagens/iconeSalvar.svg"></button>
+                        <button title="Compartilhar grade"><img src="imagens/iconeCompartilhar.svg"></button>
+                        <button title="Exportar grade para outras aplicações"><img src="imagens/iconeExportar.svg"></button>
+                        <hr>
+                        <button title="Recortar"><img src="imagens/iconeRecortar.svg"></button>
+                        <button title="Copiar"><img src="imagens/iconeCopiar.svg"></button>
+                        <button title="Colar"><img src="imagens/iconeColar.svg"></button>
+                        <hr>
+                        <button>Adicionar...</button>
+                        <hr>
+                        Filtrar: <input type="text">
+                    </div>
+                    <div id="editListagens">
+                        <div id="abasListagens">
+                            <button id="botaoListagemAlertas" class="secundario" onclick="exibirListagem('alertas')">Alertas</button>
+                            <button id="botaoListagemDocentes" class="secundario" onclick="exibirListagem('docentes')">Docentes</button>
+                            <button id="botaoListagemDisciplinas" class="secundario" onclick="exibirListagem('disciplinas')">Disciplinas</button>
+                        </div>
+                        <div class="listagem" id="listagemAlertas">
+                        </div>
+                        <div class="listagem" id="listagemDocentes">
+                        </div>
+                        <div class="listagem" id="listagemDisciplinas">
+                        </div>
+                    </div>
+                    <div id="editGrade"></div>
+                </div>
+            </div>
+        </div>
+        <script src="horarios.js"></script>
+        <script src="chat.js"></script>
+        <script src="mascote.js"></script>
+        <script src="menu.js"></script>
+        <script src="editorGrade.js"></script>
+        <script src="criacaoGrade.js"></script>
+    </body>
+</html>
