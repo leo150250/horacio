@@ -882,3 +882,12 @@ function exibirListagem(argListagem) {
     }
 }
 exibirListagem("alertas");
+
+//Lista de adicionar itens à grade
+const ul_listaAdicionar=document.getElementById("listaAdicionar");
+function abrirListaAdicionar() {
+    ul_listaAdicionar.style.display="block";
+}
+function fecharListaAdicionar() {
+    ul_listaAdicionar.style.display="none";
+}
