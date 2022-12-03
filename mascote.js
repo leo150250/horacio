@@ -1,3 +1,5 @@
+incluirCSS("mascote.css");
+
 //Mascote
 var mascote_posX=0;
 var mascote_posY=document.body.offsetHeight+128;

@@ -58,3 +58,10 @@ function gerarInput(argID, argLabel, argTipo, argValor="", argAttribs=[], argPos
     }
     return [novoSpan,novoInput,novoLabel];
 }
+function incluirCSS(argArquivoCSS) {
+    let novoCSS=document.createElement("link");
+    novoCSS.href=argArquivoCSS;
+    novoCSS.type="text/css";
+    novoCSS.rel="stylesheet";
+    document.head.appendChild(novoCSS);
+}

@@ -1,3 +1,5 @@
+incluirCSS("menu.css");
+
 //Geração
 const div_wrapperMenu = document.createElement("div");
 div_wrapperMenu.id="wrapperMenu";

@@ -1,0 +1,60 @@
+#wrapperMenu {
+    width: 20em;
+    background-color: #F8F8F8;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: auto;
+    min-height: 2.5em;
+    max-height: 100%;
+    transition: width 0.2s, height 0.2s;
+    box-shadow: 0px 0px 10px #0008;
+    border-end-end-radius: 1em;
+    overflow: hidden;
+    z-index: 10;
+}
+#wrapperMenu[recolhido] {
+    height: 2.5em;
+    width: 6em;
+}
+#wrapperMenu[recolhido] > *:not(.barra.topo) {
+    display: none;
+}
+#menu {
+    margin: 3em 0 0;
+    overflow-x: hidden;
+}
+.perfil {
+    display: flex;
+    align-items: center;
+    margin: 0.5em;
+}
+.perfil img {
+    border-radius: 5em;
+    width: 5em;
+    height: 5em;
+}
+.perfil p {
+    flex-grow: 2;
+    margin: 0.5em;
+}
+#menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#menu ul li a {
+    padding: 1em;
+    border-top: 1px solid #C8C8C8;
+    display: block;
+    cursor: pointer;
+    transition: background-color 0.1s;
+    color: #000;
+    text-decoration: none;
+}
+#menu ul li a:hover {
+    background-color: #9ac4fa;   
+}
+#menu ul li a:active {
+    background-color: #417ac5;
+}
