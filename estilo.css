@@ -70,6 +70,14 @@ button > h2 {
     top: 0px;
     left: 0px;
 }
+h2 > button {
+    position: absolute;
+    right: 0px;
+    height: 100%;
+    top: 0px;
+    font-size: initial;
+    border-radius: 0;
+}
 button[disabled] {
     background-color: #BBB;
     cursor: unset;
@@ -78,6 +86,13 @@ button > img {
     vertical-align: baseline;
     margin: 0em 0.5em;
 }
+button.atencao {
+    animation: botaoAlerta 1s infinite;
+    color: #FD0;
+    background-color: #000;
+    font-weight: bold;
+}
+
 #status {
     position: fixed;
     right: 0;
@@ -169,11 +184,8 @@ button > img {
     background-color: #FFF;
 }
 #conteudo {
-    margin: 1em;
     background-color: #F8F8F8;
-    padding: 1em 0em 3em;
-    border-radius: 0.5em;
-    box-shadow: 0px 5px 10px #0004;
+    padding: 3em 0em 3em;
     min-height: calc(100% - 6em);
 }
 #conteudo h1, #conteudo h2, #conteudo h3, #conteudo h4, #conteudo h5, #conteudo h6 {
@@ -184,18 +196,14 @@ button > img {
     /* white-space: nowrap !important; */
     position: relative;
 }
-h2 > button {
-    position: absolute;
-    right: 0px;
-    height: 100%;
-    top: 0px;
-    font-size: initial;
-    border-radius: 0;
-}
 #conteudo h1 {
     background-color: #2165bd;
     color: #FFF;
-    position: sticky;
+    position: fixed;
+    top:0em;
+    width: calc(100% - 1em);
+    text-align: left;
+    padding: 0em 0.5em 0em 3.5em;
 }
 #conteudo h2, #conteudo h3, #conteudo h4, #conteudo h5, #conteudo h6 {
     background-color: #2165bd30;
@@ -310,6 +318,29 @@ input[type=checkbox]:checked + label {
 #wrapperCalendarioConfirmar {
     font-size: 0.5em;
 }
+.dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.dropdown ul li a, .autoCompletar button {
+    padding: 1em;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-top: 1px solid #C8C8C8;
+    display: block;
+    cursor: pointer;
+    transition: background-color 0.1s;
+    color: #000;
+    text-decoration: none;
+}
+.dropdown ul li a:hover, .autoCompletar button:hover {
+    background-color: #9ac4fa;   
+}
+.dropdown ul li a:active, .autoCompletar button:active {
+    background-color: #417ac5;
+}
 .autoCompletar {
     position: absolute;
     z-index: 3;
@@ -355,15 +386,6 @@ img.logoInstituicao {
     border: 1px solid #DDD;
     padding: 0.5em;
     border-radius: 0.5em;
-}
-button.atencao {
-    animation: botaoAlerta 1s infinite;
-    color: #FD0;
-    background-color: #000;
-    font-weight: bold;
-}
-button.atencao::before {
-    content: " ! ";
 }
 @keyframes botaoAlerta {
     0%, 50% {
