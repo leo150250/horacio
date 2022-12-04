@@ -106,11 +106,13 @@
                         <button title="Colar"><img src="imagens/iconeColar.svg"></button>
                         <hr>
                         <button onclick="abrirListaAdicionar()">Adicionar...</button>
-                        <ul id="listaAdicionar" style="display: none">
-                            <li>Dias da semana...</li>
-                            <li>Horários...</li>
-                            <li>Preenchimento automático...</li>
-                        </ul>
+                        <div id="listaAdicionar" class="dropdown" style="display: none">
+                            <ul>
+                                <li><a>Dias da semana...</a></li>
+                                <li><a>Horários...</a></li>
+                                <li><a>Preenchimento automático...</a></li>
+                            </ul>
+                        </div>
                         <hr>
                         Filtrar: <input type="text">
                     </div>

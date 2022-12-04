@@ -318,6 +318,9 @@ input[type=checkbox]:checked + label {
 #wrapperCalendarioConfirmar {
     font-size: 0.5em;
 }
+.dropdown {
+    background-color: #F8F8F8;
+}
 .dropdown ul {
     list-style: none;
     padding: 0;

@@ -251,3 +251,8 @@
         box-shadow: 0px 5px 10px #0004;
     }
 }
+#listaAdicionar {
+    position: absolute;
+    z-index: 15;
+    box-shadow: 0px 5px 10px #0004;
+}
