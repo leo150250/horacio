@@ -1,0 +1,73 @@
+#mascote {
+    position: fixed;
+    z-index: 100;
+    filter: drop-shadow(2px 5px 5px #0008);
+    transition: top 1s cubic-bezier(0.5, -0.25, 0.25, 1), left 1s cubic-bezier(0.5, -0.25, 0.25, 1);
+}
+#mascote img {
+    position: relative;
+    animation: animMascote 1s infinite;
+}
+@keyframes animMascote {
+    0% {
+        top: 0px;
+    }
+    20% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(10deg);
+    }
+    40% {
+        transform: rotate(-10deg);
+    }
+    50% {
+        transform: rotate(10deg);
+        top: -10px;
+    }
+    60% {
+        transform: rotate(-10deg);
+    }
+    70% {
+        transform: rotate(0deg);
+    }
+    80% {
+        transform: rotate(0deg);
+    }
+    100% {
+        top: 0px;
+    }
+}
+#mascote img.mao {
+    animation: animMascoteMao .51s infinite;
+    transform-origin: 100% 50%;
+    transition: 1s;
+}
+@keyframes animMascoteMao {
+    0% {
+        left: 0px;
+    }
+    50% {
+        left: 5px;
+    }
+    100% {
+        left: 0px;
+    }
+}
+#mascote .balao {
+    position: absolute;
+    width: 15em;
+    border: 2px solid #2165bd;
+    border-radius: 1em;
+    padding: 0.5em;
+    background-color: #FFF;
+}
+#mascote .balao p {
+    margin: 0px;
+}
+#mascote .balao p a {
+    margin: 0 0.5em;
+}
+#mascote .balao hr {
+    border: 1px solid #2165bd;
+}

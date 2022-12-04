@@ -1,3 +1,5 @@
+incluirCSS("chat.css");
+
 //Geração
 const div_wrapperChat = document.createElement("div");
 div_wrapperChat.id="wrapperChat";
