@@ -684,9 +684,9 @@ input_editorCampo_disciplina.addEventListener("keydown",(e)=>{
         autoCompletarDisciplina();
     }
 });
-input_editorCampo_disciplina.onblur = (e)=>{
+/*input_editorCampo_disciplina.onblur = (e)=>{
     div_autoCompletarDisciplina.style.display="none";
-}
+}*/
 var input_editorCampo_professor=formEditorCampo_professor[1];
 input_editorCampo_professor.addEventListener("keydown",(e)=>{
     if (e.key==="Enter") {
@@ -701,9 +701,9 @@ input_editorCampo_professor.addEventListener("keydown",(e)=>{
         autoCompletarProfessor();
     }
 });
-input_editorCampo_professor.onblur = (e)=>{
+/*input_editorCampo_professor.onblur = (e)=>{
     div_autoCompletarProfessor.style.display="none";
-}
+}*/
 div_editorCampo.appendChild(formEditorCampo_disciplina[0]);
 div_editorCampo.appendChild(formEditorCampo_professor[0]);
 div_editGrade.appendChild(div_editorCampo);
@@ -899,5 +899,4 @@ function abrirListaAdicionar() {
 function fecharListaAdicionar() {
     ul_listaAdicionar.style.display="none";
 }
-=======
 exibirListagem("docentes");

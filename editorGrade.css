@@ -202,7 +202,7 @@
 }
 .editorCampo {
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     background-color: #FFF;
     padding: 0em;
     margin: 0em;
