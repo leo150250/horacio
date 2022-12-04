@@ -1,0 +1,70 @@
+#wrapperChat {
+    width: 25em;
+    background-color: #F8F8F8;
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    height: 40em;
+    max-height: 100%;
+    transition: width 0.2s, height 0.2s;
+    box-shadow: 0px 0px 10px #0008;
+    border-start-start-radius: 1em;
+    overflow: hidden;
+    z-index: 10;
+}
+#wrapperChat textarea {
+    resize: none;
+    margin-right: 0.5em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1em;
+    max-height: 5em;
+}
+#wrapperChat textarea + button {
+    margin: -0.5em;
+    border-radius: 0;
+}
+#wrapperChat[recolhido] {
+    height: 2.5em;
+    width: 6em;
+}
+#wrapperChat[recolhido] > *:not(.barra.topo) {
+    display: none;
+}
+#chat {
+    margin: 3em 0;
+    height: calc(100% - 6em);
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+#chat fieldset {
+    border: none;
+    background-color: #E8E8E8;
+    margin: 0.5em;
+    position: relative;
+    left: 0;
+    opacity: 1;
+    animation: balaoChat 0.5s forwards;
+    max-width: calc(100% - 3em);
+    width: fit-content;
+}
+@keyframes balaoChat {
+    0% {
+        left: 10em;
+        opacity: 0;
+    }
+}
+#chat fieldset legend {
+    background-color: #E0E0E0;
+    font-size: 0.75em;
+    padding: 0 1em;
+    font-weight: bold;
+}
+#chat fieldset.proprio {
+    background-color: #2165bd;
+    color: #F8F8F8;
+    margin-left: auto;
+}
+#chat fieldset.proprio legend {
+    background-color: #154e97;
+    text-align: right;
+}

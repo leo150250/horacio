@@ -1,3 +1,5 @@
+incluirCSS("editorGrade.css");
+
 const div_wrapperEditorGrade=document.getElementById("wrapperEditorGrade");
 const div_editGrade=document.getElementById("editGrade");
 const div_editToolbar=document.getElementById("editToolbar");
@@ -97,6 +99,7 @@ class Professor {
         this.card.classList.add("card");
         this.card.innerHTML = argNome;
         this.card.style.backgroundColor=this.corCampo;
+        this.card.style.background="linear-gr"
         this.card.draggable = true;
         this.card.ondragstart=(e)=>{
             ferramentaCard=this;
@@ -881,7 +884,6 @@ function exibirListagem(argListagem) {
         } break;
     }
 }
-exibirListagem("alertas");
 
 //Lista de adicionar itens à grade
 const ul_listaAdicionar=document.getElementById("listaAdicionar");
@@ -891,3 +893,5 @@ function abrirListaAdicionar() {
 function fecharListaAdicionar() {
     ul_listaAdicionar.style.display="none";
 }
+=======
+exibirListagem("docentes");
