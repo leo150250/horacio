@@ -18,6 +18,7 @@ div_menuBarraTopoClicavel.appendChild(p_menuBarraTopo);
 div_wrapperMenu.appendChild(div_menuBarraTopoClicavel);
 const div_menu = document.createElement("div");
 div_menu.id="menu";
+div_menu.classList.add("dropdown");
 const div_perfil = document.createElement("div");
 div_perfil.classList.add("perfil");
 var img_perfil = document.createElement("img");

@@ -684,6 +684,9 @@ input_editorCampo_disciplina.addEventListener("keydown",(e)=>{
         autoCompletarDisciplina();
     }
 });
+input_editorCampo_disciplina.onblur = (e)=>{
+    div_autoCompletarDisciplina.style.display="none";
+}
 var input_editorCampo_professor=formEditorCampo_professor[1];
 input_editorCampo_professor.addEventListener("keydown",(e)=>{
     if (e.key==="Enter") {
@@ -698,6 +701,9 @@ input_editorCampo_professor.addEventListener("keydown",(e)=>{
         autoCompletarProfessor();
     }
 });
+input_editorCampo_professor.onblur = (e)=>{
+    div_autoCompletarProfessor.style.display="none";
+}
 div_editorCampo.appendChild(formEditorCampo_disciplina[0]);
 div_editorCampo.appendChild(formEditorCampo_professor[0]);
 div_editGrade.appendChild(div_editorCampo);
@@ -858,29 +864,29 @@ const button_listagemDocentes = document.getElementById("botaoListagemDocentes")
 const button_listagemDisciplinas = document.getElementById("botaoListagemDisciplinas");
 function exibirListagem(argListagem) {
     switch (argListagem) {
-        case "alertas": {
-            div_listagemAlertas.style.left="0%";
-            div_listagemDocentes.style.left="100%";
-            div_listagemDisciplinas.style.left="200%";
-            button_listagemAlertas.classList.remove("secundario");
-            button_listagemDocentes.classList.add("secundario");
-            button_listagemDisciplinas.classList.add("secundario");
-        } break;
         case "docentes": {
-            div_listagemAlertas.style.left="-100%";
             div_listagemDocentes.style.left="0%";
             div_listagemDisciplinas.style.left="100%";
-            button_listagemAlertas.classList.add("secundario");
+            div_listagemAlertas.style.left="200%";
             button_listagemDocentes.classList.remove("secundario");
             button_listagemDisciplinas.classList.add("secundario");
+            button_listagemAlertas.classList.add("secundario");
         } break;
         case "disciplinas": {
-            div_listagemAlertas.style.left="-200%";
             div_listagemDocentes.style.left="-100%";
             div_listagemDisciplinas.style.left="0%";
-            button_listagemAlertas.classList.add("secundario");
+            div_listagemAlertas.style.left="100%";
             button_listagemDocentes.classList.add("secundario");
             button_listagemDisciplinas.classList.remove("secundario");
+            button_listagemAlertas.classList.add("secundario");
+        } break;
+        case "alertas": {
+            div_listagemDocentes.style.left="-200%";
+            div_listagemDisciplinas.style.left="-100%";
+            div_listagemAlertas.style.left="0%";
+            button_listagemDocentes.classList.add("secundario");
+            button_listagemDisciplinas.classList.add("secundario");
+            button_listagemAlertas.classList.remove("secundario");
         } break;
     }
 }

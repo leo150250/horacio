@@ -1,6 +1,6 @@
 #wrapperEditorGrade {
     width: 100%;
-    height: calc(100% - 10em);
+    height: calc(100% - 6em);
     position: relative;
 }
 .grade {
@@ -32,39 +32,36 @@
 .grade .campo {
     padding: 0.5em;
     cursor: cell;
+    background-image: linear-gradient(-45deg, #F8F8F8 0%, #F8F8F8 75%, transparent);
 }
 .grade .campo.intervalo {
     background-color: #EEE;
     font-size: 0.75em;
+    background-image: none;
 }
 .grade .campo.fim {
     background-color: #CCC;
+    background-image: none;
 }
 .grade .campo.dragOver {
     outline: 2px dashed #BBB;
     outline-offset: -0.5em;
 }
 .grade .campo.erro {
-    outline: 2px dotted #F00;
+    outline: 3px solid #F00;
     animation: campoErro 1s infinite;
+    font-weight: bold;
+    z-index: 1;
 }
 @keyframes campoErro {
     0% {
-        background-color: #F00;
-        outline-offset: 0em;
-    }
-    25% {
-        outline-offset: 0.5em;
+        outline-width: 1px;
     }
     50% {
-        outline-offset: 0em;
-    }
-    75% {
-        outline-offset: 0.5em;
+        outline-width: 5px;
     }
     100% {
-        background-color: initial;
-        outline-offset: 0em;
+        outline-width: 1px;
     }
 }
 .grade .labelDia {
@@ -102,32 +99,34 @@
 }
 #editToolbar {
     background-color: #FFF;
-    height: 3em;
-    width: 100%;
+    height: 2.5em;
+    width: calc(100% - 20em);
     position: absolute;
     top: 0;
     left: 0;
     z-index: 9;
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    border-bottom: 1px solid #BBB;
 }
 #editToolbar hr {
-    height: 1em;
     margin: 0.5em;
 }
 #editListagens {
     width: 20em;
-    height: calc(100% - 3em);
+    height: 100%;
     background-color: #EEE;
     position: absolute;
     right: 0;
-    top: 3em;
+    top: 0em;
     z-index: 1;
     overflow: hidden;
     border-left: 1px solid #BBB;
 }
 #editListagens #abasListagens {
     display: flex;
+    height: 2.5em;
+    align-items: stretch;
 }
 #editListagens #abasListagens * {
     flex-grow: 2;
@@ -139,6 +138,9 @@
     display: flex;
     flex-wrap: wrap;
     flex: 1;
+    overflow-y: scroll;
+    height: calc(100% - 3em);
+    align-content: flex-start;
 }
 #editListagens .listagem h2 {
     flex-basis: 100%;
@@ -228,7 +230,7 @@
     position: absolute;
     background-color: #2165bd;
     border: 1px solid #AAA;
-    z-index: 1;
+    z-index: 2;
     margin: -0.75em;
     cursor: s-resize;
     user-select: none;

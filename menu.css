@@ -38,23 +38,3 @@
     flex-grow: 2;
     margin: 0.5em;
 }
-#menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-#menu ul li a {
-    padding: 1em;
-    border-top: 1px solid #C8C8C8;
-    display: block;
-    cursor: pointer;
-    transition: background-color 0.1s;
-    color: #000;
-    text-decoration: none;
-}
-#menu ul li a:hover {
-    background-color: #9ac4fa;   
-}
-#menu ul li a:active {
-    background-color: #417ac5;
-}
