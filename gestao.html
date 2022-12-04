@@ -105,7 +105,12 @@
                         <button title="Copiar"><img src="imagens/iconeCopiar.svg"></button>
                         <button title="Colar"><img src="imagens/iconeColar.svg"></button>
                         <hr>
-                        <button>Adicionar...</button>
+                        <button onclick="abrirListaAdicionar()">Adicionar...</button>
+                        <ul id="listaAdicionar" style="display: none">
+                            <li>Dias da semana...</li>
+                            <li>Horários...</li>
+                            <li>Preenchimento automático...</li>
+                        </ul>
                         <hr>
                         Filtrar: <input type="text">
                     </div>
