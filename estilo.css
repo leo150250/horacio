@@ -318,6 +318,19 @@ input[type=checkbox]:checked + label {
 #wrapperCalendarioConfirmar {
     font-size: 0.5em;
 }
+.dropdown {
+    background-color: #F8F8F8;
+    animation: animaDropdown 0.25s forwards;
+    opacity: 1;
+}
+@keyframes animaDropdown {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 .dropdown ul {
     list-style: none;
     padding: 0;

@@ -38,13 +38,6 @@ if (gestor) {
 }
 menu_novaOpcao("Logoff","#");
 
-function alternarExibirMenu() {
-    if (div_wrapperMenu.hasAttribute("recolhido")) {
-        div_wrapperMenu.removeAttribute("recolhido");
-    } else {
-        div_wrapperMenu.setAttribute("recolhido",null);
-    }
-}
 function menu_novaOpcao(argOpcao,argLink,argIcone=null) {
     let novaOpcao_li=document.createElement("li");
     let novaOpcao_a=document.createElement("a");
@@ -52,4 +45,22 @@ function menu_novaOpcao(argOpcao,argLink,argIcone=null) {
     novaOpcao_a.href=argLink;
     novaOpcao_li.appendChild(novaOpcao_a);
     ul_opcoes.appendChild(novaOpcao_li);
+}
+function alternarExibirMenu() {
+    if (div_wrapperMenu.hasAttribute("recolhido")) {
+        div_wrapperMenu.removeAttribute("recolhido");
+    } else {
+        div_wrapperMenu.setAttribute("recolhido",null);
+        document.body.removeEventListener("click",alternarExibirMenu);
+    }
+}
+div_wrapperMenu.onmouseenter=(e)=>{
+    if (!div_wrapperMenu.hasAttribute("recolhido")) {
+        document.body.removeEventListener("click",alternarExibirMenu);
+    }
+}
+div_wrapperMenu.onmouseleave=(e)=>{
+    if (!div_wrapperMenu.hasAttribute("recolhido")) {
+        document.body.addEventListener("click",alternarExibirMenu);
+    }
 }
