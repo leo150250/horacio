@@ -127,6 +127,7 @@ class Escola {
         this.grades=[];
         this.turmas=[];
         this.alertas=[];
+        this.gradeExibicao=-1;
     }
     criarNovaDisciplina(argNome) {
         let novaDisciplina=new Disciplina(argNome);
@@ -144,7 +145,8 @@ class Escola {
         return novaTurma;
     }
     criarNovaGrade(argGrade) {
-        let novaGrade=new Grade(argGrade);
+        let novaGrade=new Grade(argGrade,this);
+        novaGrade.indiceGrades=this.grades.length;
         this.grades.push(novaGrade);
         return novaGrade;
     }
@@ -207,9 +209,12 @@ class Escola {
         this.criarNovoProfessor("Sérgio Nunes");
         console.log(this.checarChoques());
     }
+    gradeExibida() {
+        return this.grades[this.gradeExibicao].elemento;
+    }
 }
 class Grade {
-    constructor(argGrade) {
+    constructor(argGrade,argEscola) {
         this.dias=[];
         argGrade[0].forEach(dia=>{
             let novoDia=new HorarioDia(dia);
@@ -225,6 +230,9 @@ class Grade {
         })
         this.elementosTopo=[];
         this.elementosLateral=[];
+        this.escola=argEscola;
+        this.indiceGrades=-1;
+        this.elemento=null;
     }
     gerarGrade() {
         let geracaoGrade=document.createElement("div");
@@ -265,6 +273,7 @@ class Grade {
            });
            geracaoGrade.appendChild(dia.elemento);
         });
+        this.elemento=geracaoGrade;
         return geracaoGrade;
     }
     moverTopo(argPosicao) {
@@ -288,6 +297,10 @@ class Grade {
             }
         })
         return choques;
+    }
+    exibirGrade() {
+        this.escola.gradeExibicao=this.indiceGrades;
+        div_editGrade.appendChild(this.elemento);
     }
 }
 class HorarioDia {
@@ -544,15 +557,10 @@ function editor_montarCalendario(argCalendario) {
     argCalendario[2].forEach(nomeTurma => {
         escola.criarNovaTurma(nomeTurma);
     });
-    div_editGrade.appendChild(novaGrade.gerarGrade());
+    novaGrade.gerarGrade();
+    novaGrade.exibirGrade();
     escola.debug();
 }
-div_editGrade.addEventListener("scroll",(e)=>{
-    escola.grades.forEach((grade)=>{
-        grade.moverTopo(div_editGrade.scrollTop);
-        grade.moverLateral(div_editGrade.scrollLeft);
-    });
-},true);
 
 var campoSendoEditado=null
 var campoEspecial=null;
@@ -636,8 +644,6 @@ function aplicarAlteracoes() {
 }
 function sumirEditorCampo(argEvento=null) {
     if (argEvento!=null) {
-        let alvo=argEvento.target;
-        console.log({alvo});
         if ((argEvento.target.parentElement==div_autoCompletarDisciplina)
         || (argEvento.target.parentElement==div_autoCompletarProfessor)) {
             return;
@@ -911,3 +917,72 @@ function exibirListagem(argListagem) {
 const div_listaAdicionar = document.getElementById("listaAdicionar");
 computarMouseLeave(div_listaAdicionar);
 exibirListagem("docentes");
+
+//Scrolls
+const div_scrollVertical=document.createElement("div");
+div_scrollVertical.classList.add("scroll");
+div_scrollVertical.classList.add("v");
+const div_scrollerVertical=document.createElement("div");
+div_scrollerVertical.classList.add("scroller");
+div_scrollVertical.appendChild(div_scrollerVertical);
+div_editGrade.appendChild(div_scrollVertical);
+const div_scrollHorizontal=document.createElement("div");
+div_scrollHorizontal.classList.add("scroll");
+div_scrollHorizontal.classList.add("h");
+const div_scrollerHorizontal=document.createElement("div");
+div_scrollerHorizontal.classList.add("scroller");
+div_scrollHorizontal.appendChild(div_scrollerHorizontal);
+div_editGrade.appendChild(div_scrollHorizontal);
+var scrollerHorizontal=0;
+var scrollerVertical=0;
+var zoomDefinicao=100;
+var zoomMultiplicador=1;
+div_editGrade.addEventListener("wheel",(e)=>{
+    e.preventDefault();
+    console.log(e);
+    if (e.shiftKey) {
+        scrollerHorizontal=e.deltaY;
+        scrollerVertical=e.deltaZ;
+        //div_editGrade.scrollBy({behavior: "auto",top: e.deltaZ,left: e.deltaY});
+    } else if (e.altKey) {
+        zoomDefinicao+=(Math.sign(-e.deltaY))*10;
+        if (zoomDefinicao<10) {
+            zoomDefinicao=10;
+        }
+        zoomMultiplicador=zoomDefinicao/100;
+        console.log("Zoom: "+zoomDefinicao);
+        escola.gradeExibida().style.transform="scale("+zoomMultiplicador+")";
+    } else {
+        scrollerHorizontal=e.deltaZ;
+        scrollerVertical=e.deltaY;
+        //div_editGrade.scrollBy({behavior: "auto",top: e.deltaY,left: e.deltaZ});
+    }
+    scrollerGrade();
+});
+function scrollerGrade() {
+    if ((scrollerHorizontal!=0) || (scrollerVertical!=0)) {
+        scrollerHorizontal=parseInt(scrollerHorizontal/1.5);
+        scrollerVertical=parseInt(scrollerVertical/1.5);
+        //console.log(scrollerHorizontal+","+scrollerVertical)
+        div_editGrade.scrollBy(scrollerHorizontal,scrollerVertical);
+        setTimeout(scrollerGrade,10);
+    }
+    atualizarScrollers();
+}
+div_editGrade.addEventListener("scroll",(e)=>{
+    escola.grades.forEach((grade)=>{
+        grade.moverTopo(div_editGrade.scrollTop/zoomMultiplicador);
+        grade.moverLateral(div_editGrade.scrollLeft/zoomMultiplicador);
+    });
+    atualizarScrollers();
+},true);
+function atualizarScrollers() {
+    div_scrollHorizontal.style.left=div_editGrade.scrollLeft;
+    div_scrollHorizontal.style.top=div_editGrade.scrollTop+div_editGrade.offsetHeight-div_scrollHorizontal.offsetHeight;
+    div_scrollerHorizontal.style.left=((div_editGrade.scrollLeft/div_editGrade.scrollWidth)*zoomMultiplicador)*div_scrollHorizontal.offsetWidth;
+    div_scrollerHorizontal.style.width=(div_scrollHorizontal.offsetWidth/(div_editGrade.scrollWidth/div_scrollHorizontal.offsetWidth))/zoomMultiplicador;
+    div_scrollVertical.style.top=div_editGrade.scrollTop;
+    div_scrollVertical.style.left=div_editGrade.scrollLeft+div_editGrade.offsetWidth-div_scrollVertical.offsetWidth;
+    div_scrollerVertical.style.top=(div_editGrade.scrollTop/div_editGrade.scrollHeight)*div_scrollVertical.offsetHeight;
+    div_scrollerVertical.style.height=div_scrollVertical.offsetHeight/(div_editGrade.scrollHeight/div_scrollVertical.offsetHeight);
+}

@@ -79,10 +79,10 @@ function alternarDisplay(argElemento,argOrigem=null) {
     }
     if (elementoDisplay.style.display=="block") {
         elementoDisplay.style.display="none";
-        console.log("Sumiu");
+        //console.log("Sumiu");
     } else {
         elementoDisplay.style.display="block";
-        console.log("Exibiu");
+        //console.log("Exibiu");
     }
 }
 function computarMouseLeave(argElemento = document.body) {
@@ -92,10 +92,10 @@ function computarMouseLeave(argElemento = document.body) {
     }
     argElemento.onmouseleave=(e)=>{
         document.body.addEventListener("click",eventListenerDisplay);
-        console.log("Saiu");
+        //console.log("Saiu");
     };
     argElemento.onmouseenter=(e)=>{
         document.body.removeEventListener("click",eventListenerDisplay);
-        console.log("Entrou");
+        //console.log("Entrou");
     };
 }
