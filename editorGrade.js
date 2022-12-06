@@ -634,12 +634,23 @@ function aplicarAlteracoes() {
     calcularAlertas();
     sumirEditorCampo();
 }
-function sumirEditorCampo() {
+function sumirEditorCampo(argEvento=null) {
+    if (argEvento!=null) {
+        let alvo=argEvento.target;
+        console.log({alvo});
+        if ((argEvento.target.parentElement==div_autoCompletarDisciplina)
+        || (argEvento.target.parentElement==div_autoCompletarProfessor)) {
+            return;
+        } else if (argEvento.target.classList.contains("campo")) {
+            return;
+        }
+    }
     div_editorCampo.style.opacity=0;
     div_editorCampo.style.pointerEvents="none";
     div_editorCampo.style.height=0;
     div_autoCompletarDisciplina.style.display="none";
     div_autoCompletarProfessor.style.display="none";
+    document.body.removeEventListener("click",sumirEditorCampo);
 }
 function exibirEditorCampo() {
     div_editorCampo.style.opacity=1;
@@ -659,11 +670,17 @@ div_editorCampo.addEventListener("keydown",(e)=>{
         sumirEditorCampo();
     }
 });
+div_editorCampo.onmouseleave=(e)=>{
+    document.body.addEventListener("click",sumirEditorCampo);
+}
+div_editorCampo.onmouseenter=(e)=>{
+    document.body.removeEventListener("click",sumirEditorCampo);
+}
 var titulo_editorCampo=document.createElement("h2");
 var spanTitulo_editorCampo=document.createElement("span");
 spanTitulo_editorCampo.innerHTML="Aaaah!";
 var botao_editorCampo=document.createElement("button");
-botao_editorCampo.innerHTML="Ok";
+botao_editorCampo.innerHTML="<img src=\"imagens/confirmar.svg\">";
 titulo_editorCampo.appendChild(spanTitulo_editorCampo);
 titulo_editorCampo.appendChild(botao_editorCampo);
 div_editorCampo.appendChild(titulo_editorCampo);
@@ -891,12 +908,6 @@ function exibirListagem(argListagem) {
     }
 }
 
-//Lista de adicionar itens à grade
-const ul_listaAdicionar=document.getElementById("listaAdicionar");
-function abrirListaAdicionar() {
-    ul_listaAdicionar.style.display="block";
-}
-function fecharListaAdicionar() {
-    ul_listaAdicionar.style.display="none";
-}
+const div_listaAdicionar = document.getElementById("listaAdicionar");
+computarMouseLeave(div_listaAdicionar);
 exibirListagem("docentes");

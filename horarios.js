@@ -1,6 +1,7 @@
 const div_status = document.getElementById("status");
 
 var gestor=true;
+var sumirMenu=null;
 
 function atualizarEtapa() {
     let dataAtual=new Date();
@@ -64,4 +65,37 @@ function incluirCSS(argArquivoCSS) {
     novoCSS.type="text/css";
     novoCSS.rel="stylesheet";
     document.head.appendChild(novoCSS);
+}
+function alternarDisplay(argElemento,argOrigem=null) {
+    let elementoDisplay=null;
+    if (typeof argElemento=="string") {
+        elementoDisplay=document.getElementById(argElemento);
+    } else {
+        elementoDisplay=argElemento;
+    }
+    if (argOrigem!=null) {
+        elementoDisplay.style.top=argOrigem.offsetTop;
+        elementoDisplay.style.left=argOrigem.offsetLeft;
+    }
+    if (elementoDisplay.style.display=="block") {
+        elementoDisplay.style.display="none";
+        console.log("Sumiu");
+    } else {
+        elementoDisplay.style.display="block";
+        console.log("Exibiu");
+    }
+}
+function computarMouseLeave(argElemento = document.body) {
+    function eventListenerDisplay() {
+        alternarDisplay(argElemento);
+        document.body.removeEventListener("click",eventListenerDisplay);
+    }
+    argElemento.onmouseleave=(e)=>{
+        document.body.addEventListener("click",eventListenerDisplay);
+        console.log("Saiu");
+    };
+    argElemento.onmouseenter=(e)=>{
+        document.body.removeEventListener("click",eventListenerDisplay);
+        console.log("Entrou");
+    };
 }
