@@ -301,6 +301,7 @@ class Grade {
     exibirGrade() {
         this.escola.gradeExibicao=this.indiceGrades;
         div_editGrade.appendChild(this.elemento);
+        atualizarScrollers();
     }
 }
 class HorarioDia {
@@ -939,7 +940,7 @@ var zoomDefinicao=100;
 var zoomMultiplicador=1;
 div_editGrade.addEventListener("wheel",(e)=>{
     e.preventDefault();
-    console.log(e);
+    //console.log(e);
     if (e.shiftKey) {
         scrollerHorizontal=e.deltaY;
         scrollerVertical=e.deltaZ;
@@ -965,6 +966,12 @@ function scrollerGrade() {
         scrollerVertical=parseInt(scrollerVertical/1.5);
         //console.log(scrollerHorizontal+","+scrollerVertical)
         div_editGrade.scrollBy(scrollerHorizontal,scrollerVertical);
+        if (div_editGrade.scrollTop+div_editGrade.offsetHeight>div_editGrade.scrollHeight*zoomMultiplicador) {
+            div_editGrade.scrollTop=(div_editGrade.scrollHeight*zoomMultiplicador)-div_editGrade.offsetHeight;
+        }
+        if (div_editGrade.scrollLeft+div_editGrade.offsetWidth>div_editGrade.scrollWidth*zoomMultiplicador) {
+            div_editGrade.scrollLeft=(div_editGrade.scrollWidth*zoomMultiplicador)-div_editGrade.offsetWidth;
+        }
         setTimeout(scrollerGrade,10);
     }
     atualizarScrollers();
@@ -977,12 +984,12 @@ div_editGrade.addEventListener("scroll",(e)=>{
     atualizarScrollers();
 },true);
 function atualizarScrollers() {
-    div_scrollHorizontal.style.left=div_editGrade.scrollLeft;
-    div_scrollHorizontal.style.top=div_editGrade.scrollTop+div_editGrade.offsetHeight-div_scrollHorizontal.offsetHeight;
-    div_scrollerHorizontal.style.left=((div_editGrade.scrollLeft/div_editGrade.scrollWidth)*zoomMultiplicador)*div_scrollHorizontal.offsetWidth;
-    div_scrollerHorizontal.style.width=(div_scrollHorizontal.offsetWidth/(div_editGrade.scrollWidth/div_scrollHorizontal.offsetWidth))/zoomMultiplicador;
-    div_scrollVertical.style.top=div_editGrade.scrollTop;
-    div_scrollVertical.style.left=div_editGrade.scrollLeft+div_editGrade.offsetWidth-div_scrollVertical.offsetWidth;
-    div_scrollerVertical.style.top=(div_editGrade.scrollTop/div_editGrade.scrollHeight)*div_scrollVertical.offsetHeight;
-    div_scrollerVertical.style.height=div_scrollVertical.offsetHeight/(div_editGrade.scrollHeight/div_scrollVertical.offsetHeight);
+    div_scrollHorizontal.style.left    = div_editGrade.scrollLeft;
+    div_scrollVertical.style.top       = div_editGrade.scrollTop;
+    div_scrollHorizontal.style.top     = div_editGrade.scrollTop  + div_editGrade.offsetHeight - div_scrollHorizontal.offsetHeight;
+    div_scrollVertical.style.left      = div_editGrade.scrollLeft + div_editGrade.offsetWidth  - div_scrollVertical.offsetWidth;
+    div_scrollerHorizontal.style.left  = ((div_editGrade.scrollLeft / div_editGrade.scrollWidth)  * div_scrollHorizontal.offsetWidth) / zoomMultiplicador;
+    div_scrollerVertical.style.top     = ((div_editGrade.scrollTop  / div_editGrade.scrollHeight) * div_scrollVertical.offsetHeight)  / zoomMultiplicador;
+    div_scrollerHorizontal.style.width = (div_scrollHorizontal.offsetWidth / (div_editGrade.scrollWidth  / div_scrollHorizontal.offsetWidth)) / zoomMultiplicador;
+    div_scrollerVertical.style.height  = (div_scrollVertical.offsetHeight  / (div_editGrade.scrollHeight / div_scrollVertical.offsetHeight))  / zoomMultiplicador;
 }
