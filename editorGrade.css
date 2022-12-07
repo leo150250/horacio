@@ -116,6 +116,9 @@
 #editToolbar hr {
     margin: 0.5em;
 }
+#editToolbar p {
+    margin: 0.5em;
+}
 #editListagens {
     width: 20em;
     height: 100%;

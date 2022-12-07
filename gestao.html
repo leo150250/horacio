@@ -105,6 +105,11 @@
                         <button title="Copiar"><img src="imagens/iconeCopiar.svg"></button>
                         <button title="Colar"><img src="imagens/iconeColar.svg"></button>
                         <hr>
+                        <button title="Zoom padrão" onclick="zoomPadrao()"><img src="imagens/iconeZoomResetar.svg"></button>
+                        <p id="zoomExibicao" style="width: 3em">100%</p>
+                        <button title="Menos zoom" onclick="zoomDiminuir()"><img src="imagens/iconeZoomDiminuir.svg"></button>
+                        <button title="Mais zoom" onclick="zoomAumentar()"><img src="imagens/iconeZoomAumentar.svg"></button>
+                        <hr>
                         <button onclick="alternarDisplay('listaAdicionar',this)">Adicionar...</button>
                         <div id="listaAdicionar" class="dropdown" style="display: none">
                             <ul>
@@ -114,7 +119,7 @@
                             </ul>
                         </div>
                         <hr>
-                        Filtrar: <input type="text">
+                        <p>Filtrar:</p><input type="text">
                     </div>
                     <div id="editListagens">
                         <div id="abasListagens">

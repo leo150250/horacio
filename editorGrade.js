@@ -439,8 +439,8 @@ class HorarioCampo {
                 this.turma.elemento.classList.add("destaque");
             }
             if (this.horario.tipo!="F") {
-                div_editorCampoEspecial.style.left=(this.elemento.offsetLeft+this.elemento.offsetWidth+this.horario.dia.elemento.offsetLeft);
-                div_editorCampoEspecial.style.top=(this.elemento.offsetTop+this.elemento.offsetHeight+this.horario.dia.elemento.offsetTop);
+                div_editorCampoEspecial.style.left=(this.elemento.offsetLeft+this.elemento.offsetWidth+this.horario.dia.elemento.offsetLeft)*zoomMultiplicador;
+                div_editorCampoEspecial.style.top=(this.elemento.offsetTop+this.elemento.offsetHeight+this.horario.dia.elemento.offsetTop)*zoomMultiplicador;
                 if (ferramenta=="arrastarEspecial") {
                     executarFerramenta(e,this);
                 } else {
@@ -571,8 +571,8 @@ function executarFerramenta(argEvento,argCampo) {
             exibirEditorCampo();
             campoSendoEditado=argCampo;
             //console.log({argCampo});
-            div_editorCampo.style.top=(argCampo.elemento.offsetTop+argCampo.horario.dia.elemento.offsetTop);
-            div_editorCampo.style.left=(argCampo.elemento.offsetLeft+argCampo.horario.dia.elemento.offsetLeft);
+            div_editorCampo.style.top=(argCampo.elemento.offsetTop+argCampo.horario.dia.elemento.offsetTop)*zoomMultiplicador;
+            div_editorCampo.style.left=(argCampo.elemento.offsetLeft+argCampo.horario.dia.elemento.offsetLeft)*zoomMultiplicador;
             div_editorCampo.style.width=argCampo.elemento.offsetWidth;
             //div_editorCampo.style.minHeight=argCampo.elemento.offsetHeight;
             if (editorCampo_altura==0) {
@@ -919,12 +919,21 @@ const div_listaAdicionar = document.getElementById("listaAdicionar");
 computarMouseLeave(div_listaAdicionar);
 exibirListagem("docentes");
 
-//Scrolls
+//Scrolls e zoom
+var scrollingMouseBarras=false;
 const div_scrollVertical=document.createElement("div");
 div_scrollVertical.classList.add("scroll");
 div_scrollVertical.classList.add("v");
 const div_scrollerVertical=document.createElement("div");
 div_scrollerVertical.classList.add("scroller");
+div_scrollerVertical.addEventListener("mousedown",(e)=>{
+    document.body.addEventListener("mousemove",scrollerVerticalMouse);
+    scrollingMouseBarras=true;
+    document.body.addEventListener("mouseup",(e)=>{
+        document.body.removeEventListener("mousemove",scrollerVerticalMouse);
+        scrollingMouseBarras=false;
+    })
+});
 div_scrollVertical.appendChild(div_scrollerVertical);
 div_editGrade.appendChild(div_scrollVertical);
 const div_scrollHorizontal=document.createElement("div");
@@ -932,12 +941,21 @@ div_scrollHorizontal.classList.add("scroll");
 div_scrollHorizontal.classList.add("h");
 const div_scrollerHorizontal=document.createElement("div");
 div_scrollerHorizontal.classList.add("scroller");
+div_scrollerHorizontal.addEventListener("mousedown",(e)=>{
+    document.body.addEventListener("mousemove",scrollerHorizontalMouse);
+    scrollingMouseBarras=true;
+    document.body.addEventListener("mouseup",(e)=>{
+        document.body.removeEventListener("mousemove",scrollerHorizontalMouse);
+        scrollingMouseBarras=false;
+    })
+});
 div_scrollHorizontal.appendChild(div_scrollerHorizontal);
 div_editGrade.appendChild(div_scrollHorizontal);
 var scrollerHorizontal=0;
 var scrollerVertical=0;
 var zoomDefinicao=100;
 var zoomMultiplicador=1;
+const p_zoomExibicao=document.getElementById("zoomExibicao");
 div_editGrade.addEventListener("wheel",(e)=>{
     e.preventDefault();
     //console.log(e);
@@ -945,44 +963,75 @@ div_editGrade.addEventListener("wheel",(e)=>{
         scrollerHorizontal=e.deltaY;
         scrollerVertical=e.deltaZ;
         //div_editGrade.scrollBy({behavior: "auto",top: e.deltaZ,left: e.deltaY});
+        scrollerGrade();
     } else if (e.altKey) {
         zoomDefinicao+=(Math.sign(-e.deltaY))*10;
-        if (zoomDefinicao<10) {
-            zoomDefinicao=10;
-        }
-        zoomMultiplicador=zoomDefinicao/100;
-        console.log("Zoom: "+zoomDefinicao);
-        escola.gradeExibida().style.transform="scale("+zoomMultiplicador+")";
+        atualizarZoom();
     } else {
         scrollerHorizontal=e.deltaZ;
         scrollerVertical=e.deltaY;
         //div_editGrade.scrollBy({behavior: "auto",top: e.deltaY,left: e.deltaZ});
+        scrollerGrade();
     }
-    scrollerGrade();
 });
+function atualizarZoom() {
+    if (zoomDefinicao<10) {
+        zoomDefinicao=10;
+    }
+    if (zoomDefinicao>250) {
+        zoomDefinicao=250;
+    }
+    zoomMultiplicador=zoomDefinicao/100;
+    //console.log("Zoom: "+zoomDefinicao);
+    p_zoomExibicao.innerHTML=zoomDefinicao.toString()+"%";
+    escola.gradeExibida().style.transform="scale("+zoomMultiplicador+")";
+    scrollerGrade();
+}
+function zoomPadrao() {
+    zoomDefinicao=100;
+    atualizarZoom();
+}
+function zoomAumentar() {
+    zoomDefinicao+=10;
+    atualizarZoom();
+}
+function zoomDiminuir() {
+    zoomDefinicao-=10;
+    atualizarZoom();
+}
 function scrollerGrade() {
     if ((scrollerHorizontal!=0) || (scrollerVertical!=0)) {
-        scrollerHorizontal=parseInt(scrollerHorizontal/1.5);
-        scrollerVertical=parseInt(scrollerVertical/1.5);
+        if (!scrollingMouseBarras) {
+            scrollerHorizontal=parseInt(scrollerHorizontal/1.5);
+            scrollerVertical=parseInt(scrollerVertical/1.5);
+        }
         //console.log(scrollerHorizontal+","+scrollerVertical)
         div_editGrade.scrollBy(scrollerHorizontal,scrollerVertical);
-        if (div_editGrade.scrollTop+div_editGrade.offsetHeight>div_editGrade.scrollHeight*zoomMultiplicador) {
-            div_editGrade.scrollTop=(div_editGrade.scrollHeight*zoomMultiplicador)-div_editGrade.offsetHeight;
-        }
-        if (div_editGrade.scrollLeft+div_editGrade.offsetWidth>div_editGrade.scrollWidth*zoomMultiplicador) {
-            div_editGrade.scrollLeft=(div_editGrade.scrollWidth*zoomMultiplicador)-div_editGrade.offsetWidth;
+        if (scrollingMouseBarras) {
+            //console.log("É das barras!");
+            scrollerHorizontal=0;
+            scrollerVertical=0;
         }
         setTimeout(scrollerGrade,10);
     }
-    atualizarScrollers();
-}
-div_editGrade.addEventListener("scroll",(e)=>{
+    if (div_editGrade.scrollTop+div_editGrade.offsetHeight>div_editGrade.scrollHeight*zoomMultiplicador) {
+        div_editGrade.scrollTop=(div_editGrade.scrollHeight*zoomMultiplicador)-div_editGrade.offsetHeight;
+    }
+    if (div_editGrade.scrollLeft+div_editGrade.offsetWidth>div_editGrade.scrollWidth*zoomMultiplicador) {
+        div_editGrade.scrollLeft=(div_editGrade.scrollWidth*zoomMultiplicador)-div_editGrade.offsetWidth;
+    }
     escola.grades.forEach((grade)=>{
         grade.moverTopo(div_editGrade.scrollTop/zoomMultiplicador);
         grade.moverLateral(div_editGrade.scrollLeft/zoomMultiplicador);
     });
     atualizarScrollers();
-},true);
+}
+div_editGrade.addEventListener("scroll",(e)=>{
+    scrollerGrade();
+});
+window.addEventListener("resize",(e)=>{
+    scrollerGrade();
+})
 function atualizarScrollers() {
     div_scrollHorizontal.style.left    = div_editGrade.scrollLeft;
     div_scrollVertical.style.top       = div_editGrade.scrollTop;
@@ -992,4 +1041,14 @@ function atualizarScrollers() {
     div_scrollerVertical.style.top     = ((div_editGrade.scrollTop  / div_editGrade.scrollHeight) * div_scrollVertical.offsetHeight)  / zoomMultiplicador;
     div_scrollerHorizontal.style.width = (div_scrollHorizontal.offsetWidth / (div_editGrade.scrollWidth  / div_scrollHorizontal.offsetWidth)) / zoomMultiplicador;
     div_scrollerVertical.style.height  = (div_scrollVertical.offsetHeight  / (div_editGrade.scrollHeight / div_scrollVertical.offsetHeight))  / zoomMultiplicador;
+}
+function scrollerVerticalMouse(e) {
+    console.log(e);
+    scrollerVertical=e.movementY*(2.5*zoomMultiplicador);
+    scrollerGrade();
+}
+function scrollerHorizontalMouse(e) {
+    console.log(e);
+    scrollerHorizontal=e.movementX*(2.5*zoomMultiplicador);
+    scrollerGrade();
 }
