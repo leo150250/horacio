@@ -301,6 +301,7 @@ class Grade {
     exibirGrade() {
         this.escola.gradeExibicao=this.indiceGrades;
         div_editGrade.appendChild(this.elemento);
+        zoomPadrao();
         atualizarScrollers();
     }
 }
@@ -657,6 +658,8 @@ function sumirEditorCampo(argEvento=null) {
     div_editorCampo.style.height=0;
     div_autoCompletarDisciplina.style.display="none";
     div_autoCompletarProfessor.style.display="none";
+    input_editorCampo_disciplina.blur();
+    input_editorCampo_professor.blur();
     document.body.removeEventListener("click",sumirEditorCampo);
 }
 function exibirEditorCampo() {
@@ -955,6 +958,9 @@ var scrollerHorizontal=0;
 var scrollerVertical=0;
 var zoomDefinicao=100;
 var zoomMultiplicador=1;
+var zoomAlturaGradePadrao=-1;
+var scrollYAnterior=-1;
+var scrollXAnterior=-1;
 const p_zoomExibicao=document.getElementById("zoomExibicao");
 div_editGrade.addEventListener("wheel",(e)=>{
     e.preventDefault();
@@ -975,6 +981,8 @@ div_editGrade.addEventListener("wheel",(e)=>{
     }
 });
 function atualizarZoom() {
+    div_editorCampoEspecial.style.left=0;
+    div_editorCampoEspecial.style.top=0;
     if (zoomDefinicao<10) {
         zoomDefinicao=10;
     }
@@ -985,10 +993,14 @@ function atualizarZoom() {
     //console.log("Zoom: "+zoomDefinicao);
     p_zoomExibicao.innerHTML=zoomDefinicao.toString()+"%";
     escola.gradeExibida().style.transform="scale("+zoomMultiplicador+")";
+    if ((zoomDefinicao==100) && (zoomAlturaGradePadrao==-1)) {
+        zoomAlturaGradePadrao=escola.gradeExibida().scrollHeight-div_editGrade.offsetHeight;
+    }
     scrollerGrade();
 }
 function zoomPadrao() {
     zoomDefinicao=100;
+    zoomAlturaGradePadrao=-1;
     atualizarZoom();
 }
 function zoomAumentar() {
@@ -1014,11 +1026,17 @@ function scrollerGrade() {
         }
         setTimeout(scrollerGrade,10);
     }
-    if (div_editGrade.scrollTop+div_editGrade.offsetHeight>div_editGrade.scrollHeight*zoomMultiplicador) {
-        div_editGrade.scrollTop=(div_editGrade.scrollHeight*zoomMultiplicador)-div_editGrade.offsetHeight;
+    console.log("Zoom: "+zoomMultiplicador+" - "+div_editGrade.scrollTop+", "+div_editGrade.scrollHeight);
+    console.log("scrollHeight - offsetHeight: "+(div_editGrade.scrollHeight-div_editGrade.offsetHeight));
+    let limiteScrollV=((escola.gradeExibida().offsetHeight)*zoomMultiplicador)-div_editGrade.clientHeight;
+    let limiteScrollH=((escola.gradeExibida().offsetWidth)*zoomMultiplicador)-div_editGrade.clientWidth;
+    console.log("Cálculo: "+limiteScrollH);
+    if (div_editGrade.scrollTop>limiteScrollV) {
+        //console.log("Ultrapassou V");
+        div_editGrade.scrollTop=limiteScrollV;
     }
-    if (div_editGrade.scrollLeft+div_editGrade.offsetWidth>div_editGrade.scrollWidth*zoomMultiplicador) {
-        div_editGrade.scrollLeft=(div_editGrade.scrollWidth*zoomMultiplicador)-div_editGrade.offsetWidth;
+    if (div_editGrade.scrollLeft>limiteScrollH) {
+        div_editGrade.scrollLeft=limiteScrollH;
     }
     escola.grades.forEach((grade)=>{
         grade.moverTopo(div_editGrade.scrollTop/zoomMultiplicador);
@@ -1037,10 +1055,21 @@ function atualizarScrollers() {
     div_scrollVertical.style.top       = div_editGrade.scrollTop;
     div_scrollHorizontal.style.top     = div_editGrade.scrollTop  + div_editGrade.offsetHeight - div_scrollHorizontal.offsetHeight;
     div_scrollVertical.style.left      = div_editGrade.scrollLeft + div_editGrade.offsetWidth  - div_scrollVertical.offsetWidth;
-    div_scrollerHorizontal.style.left  = ((div_editGrade.scrollLeft / div_editGrade.scrollWidth)  * div_scrollHorizontal.offsetWidth) / zoomMultiplicador;
-    div_scrollerVertical.style.top     = ((div_editGrade.scrollTop  / div_editGrade.scrollHeight) * div_scrollVertical.offsetHeight)  / zoomMultiplicador;
-    div_scrollerHorizontal.style.width = (div_scrollHorizontal.offsetWidth / (div_editGrade.scrollWidth  / div_scrollHorizontal.offsetWidth)) / zoomMultiplicador;
-    div_scrollerVertical.style.height  = (div_scrollVertical.offsetHeight  / (div_editGrade.scrollHeight / div_scrollVertical.offsetHeight))  / zoomMultiplicador;
+    let scrollerHPosicao = ((div_editGrade.scrollLeft / div_editGrade.scrollWidth)  * div_scrollHorizontal.offsetWidth);
+    let scrollerVPosicao = ((div_editGrade.scrollTop  / div_editGrade.scrollHeight) * div_scrollVertical.offsetHeight);
+    let scrollerHTamanho = (div_scrollHorizontal.offsetWidth / (div_editGrade.scrollWidth  / div_scrollHorizontal.offsetWidth));
+    let scrollerVTamanho = (div_scrollVertical.offsetHeight  / (div_editGrade.scrollHeight / div_scrollVertical.offsetHeight));
+    if (zoomMultiplicador<1) {
+        scrollerHPosicao /= zoomMultiplicador;
+        scrollerVPosicao /= zoomMultiplicador;
+        scrollerHTamanho /= zoomMultiplicador;
+        scrollerVTamanho /= zoomMultiplicador;
+    }
+    div_scrollerHorizontal.style.left  = scrollerHPosicao;
+    div_scrollerVertical.style.top     = scrollerVPosicao;
+    div_scrollerHorizontal.style.width = scrollerHTamanho;
+    div_scrollerVertical.style.height  = scrollerVTamanho;
+    console.log("Atualizei!");
 }
 function scrollerVerticalMouse(e) {
     console.log(e);
