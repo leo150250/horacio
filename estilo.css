@@ -84,7 +84,7 @@ button[disabled] {
 }
 button > img {
     vertical-align: baseline;
-    margin: 0em 0.5em;
+    /* margin: 0em 0.5em; */
 }
 button.atencao {
     animation: botaoAlerta 1s infinite;

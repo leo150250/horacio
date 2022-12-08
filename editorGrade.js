@@ -127,6 +127,7 @@ class Escola {
         this.grades=[];
         this.turmas=[];
         this.alertas=[];
+        this.gradeExibicao=-1;
     }
     criarNovaDisciplina(argNome) {
         let novaDisciplina=new Disciplina(argNome);
@@ -144,7 +145,8 @@ class Escola {
         return novaTurma;
     }
     criarNovaGrade(argGrade) {
-        let novaGrade=new Grade(argGrade);
+        let novaGrade=new Grade(argGrade,this);
+        novaGrade.indiceGrades=this.grades.length;
         this.grades.push(novaGrade);
         return novaGrade;
     }
@@ -207,9 +209,12 @@ class Escola {
         this.criarNovoProfessor("Sérgio Nunes");
         console.log(this.checarChoques());
     }
+    gradeExibida() {
+        return this.grades[this.gradeExibicao].elemento;
+    }
 }
 class Grade {
-    constructor(argGrade) {
+    constructor(argGrade,argEscola) {
         this.dias=[];
         argGrade[0].forEach(dia=>{
             let novoDia=new HorarioDia(dia);
@@ -225,6 +230,9 @@ class Grade {
         })
         this.elementosTopo=[];
         this.elementosLateral=[];
+        this.escola=argEscola;
+        this.indiceGrades=-1;
+        this.elemento=null;
     }
     gerarGrade() {
         let geracaoGrade=document.createElement("div");
@@ -265,6 +273,7 @@ class Grade {
            });
            geracaoGrade.appendChild(dia.elemento);
         });
+        this.elemento=geracaoGrade;
         return geracaoGrade;
     }
     moverTopo(argPosicao) {
@@ -288,6 +297,12 @@ class Grade {
             }
         })
         return choques;
+    }
+    exibirGrade() {
+        this.escola.gradeExibicao=this.indiceGrades;
+        div_editGrade.appendChild(this.elemento);
+        zoomPadrao();
+        atualizarScrollers();
     }
 }
 class HorarioDia {
@@ -425,8 +440,8 @@ class HorarioCampo {
                 this.turma.elemento.classList.add("destaque");
             }
             if (this.horario.tipo!="F") {
-                div_editorCampoEspecial.style.left=(this.elemento.offsetLeft+this.elemento.offsetWidth+this.horario.dia.elemento.offsetLeft);
-                div_editorCampoEspecial.style.top=(this.elemento.offsetTop+this.elemento.offsetHeight+this.horario.dia.elemento.offsetTop);
+                div_editorCampoEspecial.style.left=(this.elemento.offsetLeft+this.elemento.offsetWidth+this.horario.dia.elemento.offsetLeft)*zoomMultiplicador;
+                div_editorCampoEspecial.style.top=(this.elemento.offsetTop+this.elemento.offsetHeight+this.horario.dia.elemento.offsetTop)*zoomMultiplicador;
                 if (ferramenta=="arrastarEspecial") {
                     executarFerramenta(e,this);
                 } else {
@@ -544,15 +559,10 @@ function editor_montarCalendario(argCalendario) {
     argCalendario[2].forEach(nomeTurma => {
         escola.criarNovaTurma(nomeTurma);
     });
-    div_editGrade.appendChild(novaGrade.gerarGrade());
+    novaGrade.gerarGrade();
+    novaGrade.exibirGrade();
     escola.debug();
 }
-div_editGrade.addEventListener("scroll",(e)=>{
-    escola.grades.forEach((grade)=>{
-        grade.moverTopo(div_editGrade.scrollTop);
-        grade.moverLateral(div_editGrade.scrollLeft);
-    });
-},true);
 
 var campoSendoEditado=null
 var campoEspecial=null;
@@ -562,8 +572,8 @@ function executarFerramenta(argEvento,argCampo) {
             exibirEditorCampo();
             campoSendoEditado=argCampo;
             //console.log({argCampo});
-            div_editorCampo.style.top=(argCampo.elemento.offsetTop+argCampo.horario.dia.elemento.offsetTop);
-            div_editorCampo.style.left=(argCampo.elemento.offsetLeft+argCampo.horario.dia.elemento.offsetLeft);
+            div_editorCampo.style.top=(argCampo.elemento.offsetTop+argCampo.horario.dia.elemento.offsetTop)*zoomMultiplicador;
+            div_editorCampo.style.left=(argCampo.elemento.offsetLeft+argCampo.horario.dia.elemento.offsetLeft)*zoomMultiplicador;
             div_editorCampo.style.width=argCampo.elemento.offsetWidth;
             //div_editorCampo.style.minHeight=argCampo.elemento.offsetHeight;
             if (editorCampo_altura==0) {
@@ -636,8 +646,6 @@ function aplicarAlteracoes() {
 }
 function sumirEditorCampo(argEvento=null) {
     if (argEvento!=null) {
-        let alvo=argEvento.target;
-        console.log({alvo});
         if ((argEvento.target.parentElement==div_autoCompletarDisciplina)
         || (argEvento.target.parentElement==div_autoCompletarProfessor)) {
             return;
@@ -650,6 +658,8 @@ function sumirEditorCampo(argEvento=null) {
     div_editorCampo.style.height=0;
     div_autoCompletarDisciplina.style.display="none";
     div_autoCompletarProfessor.style.display="none";
+    input_editorCampo_disciplina.blur();
+    input_editorCampo_professor.blur();
     document.body.removeEventListener("click",sumirEditorCampo);
 }
 function exibirEditorCampo() {
@@ -911,3 +921,163 @@ function exibirListagem(argListagem) {
 const div_listaAdicionar = document.getElementById("listaAdicionar");
 computarMouseLeave(div_listaAdicionar);
 exibirListagem("docentes");
+
+//Scrolls e zoom
+var scrollingMouseBarras=false;
+const div_scrollVertical=document.createElement("div");
+div_scrollVertical.classList.add("scroll");
+div_scrollVertical.classList.add("v");
+const div_scrollerVertical=document.createElement("div");
+div_scrollerVertical.classList.add("scroller");
+div_scrollerVertical.addEventListener("mousedown",(e)=>{
+    document.body.addEventListener("mousemove",scrollerVerticalMouse);
+    scrollingMouseBarras=true;
+    document.body.addEventListener("mouseup",(e)=>{
+        document.body.removeEventListener("mousemove",scrollerVerticalMouse);
+        scrollingMouseBarras=false;
+    })
+});
+div_scrollVertical.appendChild(div_scrollerVertical);
+div_editGrade.appendChild(div_scrollVertical);
+const div_scrollHorizontal=document.createElement("div");
+div_scrollHorizontal.classList.add("scroll");
+div_scrollHorizontal.classList.add("h");
+const div_scrollerHorizontal=document.createElement("div");
+div_scrollerHorizontal.classList.add("scroller");
+div_scrollerHorizontal.addEventListener("mousedown",(e)=>{
+    document.body.addEventListener("mousemove",scrollerHorizontalMouse);
+    scrollingMouseBarras=true;
+    document.body.addEventListener("mouseup",(e)=>{
+        document.body.removeEventListener("mousemove",scrollerHorizontalMouse);
+        scrollingMouseBarras=false;
+    })
+});
+div_scrollHorizontal.appendChild(div_scrollerHorizontal);
+div_editGrade.appendChild(div_scrollHorizontal);
+var scrollerHorizontal=0;
+var scrollerVertical=0;
+var zoomDefinicao=100;
+var zoomMultiplicador=1;
+var zoomAlturaGradePadrao=-1;
+var scrollYAnterior=-1;
+var scrollXAnterior=-1;
+const p_zoomExibicao=document.getElementById("zoomExibicao");
+div_editGrade.addEventListener("wheel",(e)=>{
+    e.preventDefault();
+    //console.log(e);
+    if (e.shiftKey) {
+        scrollerHorizontal=e.deltaY;
+        scrollerVertical=e.deltaZ;
+        //div_editGrade.scrollBy({behavior: "auto",top: e.deltaZ,left: e.deltaY});
+        scrollerGrade();
+    } else if (e.altKey) {
+        zoomDefinicao+=(Math.sign(-e.deltaY))*10;
+        atualizarZoom();
+    } else {
+        scrollerHorizontal=e.deltaZ;
+        scrollerVertical=e.deltaY;
+        //div_editGrade.scrollBy({behavior: "auto",top: e.deltaY,left: e.deltaZ});
+        scrollerGrade();
+    }
+});
+function atualizarZoom() {
+    div_editorCampoEspecial.style.left=0;
+    div_editorCampoEspecial.style.top=0;
+    if (zoomDefinicao<10) {
+        zoomDefinicao=10;
+    }
+    if (zoomDefinicao>250) {
+        zoomDefinicao=250;
+    }
+    zoomMultiplicador=zoomDefinicao/100;
+    //console.log("Zoom: "+zoomDefinicao);
+    p_zoomExibicao.innerHTML=zoomDefinicao.toString()+"%";
+    escola.gradeExibida().style.transform="scale("+zoomMultiplicador+")";
+    if ((zoomDefinicao==100) && (zoomAlturaGradePadrao==-1)) {
+        zoomAlturaGradePadrao=escola.gradeExibida().scrollHeight-div_editGrade.offsetHeight;
+    }
+    scrollerGrade();
+}
+function zoomPadrao() {
+    zoomDefinicao=100;
+    zoomAlturaGradePadrao=-1;
+    atualizarZoom();
+}
+function zoomAumentar() {
+    zoomDefinicao+=10;
+    atualizarZoom();
+}
+function zoomDiminuir() {
+    zoomDefinicao-=10;
+    atualizarZoom();
+}
+function scrollerGrade() {
+    if ((scrollerHorizontal!=0) || (scrollerVertical!=0)) {
+        if (!scrollingMouseBarras) {
+            scrollerHorizontal=parseInt(scrollerHorizontal/1.5);
+            scrollerVertical=parseInt(scrollerVertical/1.5);
+        }
+        //console.log(scrollerHorizontal+","+scrollerVertical)
+        div_editGrade.scrollBy(scrollerHorizontal,scrollerVertical);
+        if (scrollingMouseBarras) {
+            //console.log("É das barras!");
+            scrollerHorizontal=0;
+            scrollerVertical=0;
+        }
+        setTimeout(scrollerGrade,10);
+    }
+    console.log("Zoom: "+zoomMultiplicador+" - "+div_editGrade.scrollTop+", "+div_editGrade.scrollHeight);
+    console.log("scrollHeight - offsetHeight: "+(div_editGrade.scrollHeight-div_editGrade.offsetHeight));
+    let limiteScrollV=((escola.gradeExibida().offsetHeight)*zoomMultiplicador)-div_editGrade.clientHeight;
+    let limiteScrollH=((escola.gradeExibida().offsetWidth)*zoomMultiplicador)-div_editGrade.clientWidth;
+    console.log("Cálculo: "+limiteScrollH);
+    if (div_editGrade.scrollTop>limiteScrollV) {
+        //console.log("Ultrapassou V");
+        div_editGrade.scrollTop=limiteScrollV;
+    }
+    if (div_editGrade.scrollLeft>limiteScrollH) {
+        div_editGrade.scrollLeft=limiteScrollH;
+    }
+    escola.grades.forEach((grade)=>{
+        grade.moverTopo(div_editGrade.scrollTop/zoomMultiplicador);
+        grade.moverLateral(div_editGrade.scrollLeft/zoomMultiplicador);
+    });
+    atualizarScrollers();
+}
+div_editGrade.addEventListener("scroll",(e)=>{
+    scrollerGrade();
+});
+window.addEventListener("resize",(e)=>{
+    scrollerGrade();
+})
+function atualizarScrollers() {
+    div_scrollHorizontal.style.left    = div_editGrade.scrollLeft;
+    div_scrollVertical.style.top       = div_editGrade.scrollTop;
+    div_scrollHorizontal.style.top     = div_editGrade.scrollTop  + div_editGrade.offsetHeight - div_scrollHorizontal.offsetHeight;
+    div_scrollVertical.style.left      = div_editGrade.scrollLeft + div_editGrade.offsetWidth  - div_scrollVertical.offsetWidth;
+    let scrollerHPosicao = ((div_editGrade.scrollLeft / div_editGrade.scrollWidth)  * div_scrollHorizontal.offsetWidth);
+    let scrollerVPosicao = ((div_editGrade.scrollTop  / div_editGrade.scrollHeight) * div_scrollVertical.offsetHeight);
+    let scrollerHTamanho = (div_scrollHorizontal.offsetWidth / (div_editGrade.scrollWidth  / div_scrollHorizontal.offsetWidth));
+    let scrollerVTamanho = (div_scrollVertical.offsetHeight  / (div_editGrade.scrollHeight / div_scrollVertical.offsetHeight));
+    if (zoomMultiplicador<1) {
+        scrollerHPosicao /= zoomMultiplicador;
+        scrollerVPosicao /= zoomMultiplicador;
+        scrollerHTamanho /= zoomMultiplicador;
+        scrollerVTamanho /= zoomMultiplicador;
+    }
+    div_scrollerHorizontal.style.left  = scrollerHPosicao;
+    div_scrollerVertical.style.top     = scrollerVPosicao;
+    div_scrollerHorizontal.style.width = scrollerHTamanho;
+    div_scrollerVertical.style.height  = scrollerVTamanho;
+    console.log("Atualizei!");
+}
+function scrollerVerticalMouse(e) {
+    console.log(e);
+    scrollerVertical=e.movementY*(2.5*zoomMultiplicador);
+    scrollerGrade();
+}
+function scrollerHorizontalMouse(e) {
+    console.log(e);
+    scrollerHorizontal=e.movementX*(2.5*zoomMultiplicador);
+    scrollerGrade();
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 6.3499999 6.3499999"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="iconeZoomResetar.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="true"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="15.893067"
+     inkscape:cx="14.597561"
+     inkscape:cy="12.206581"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid326"
+       spacingx="3.175"
+       spacingy="3.7041667"
+       empspacing="6"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:#333333;stroke-width:1.28024;stroke-linecap:round;stop-color:#000000"
+       id="path490"
+       cx="3.4608846"
+       cy="2.8840704"
+       r="2.6486361" />
+    <path
+       id="rect598"
+       style="fill:#333333;stroke-width:1.05833;stroke-linecap:round;stop-color:#000000"
+       d="M 1.8137934,3.6334493 2.7591531,4.578809 c 0,0 -1.3760341,1.6661677 -1.664772,1.664772 C 0.80564322,6.2421853 0.11089839,5.6887372 0.14902146,5.2982213 0.18714453,4.9077054 1.8137934,3.6334493 1.8137934,3.6334493 Z"
+       sodipodi:nodetypes="cczzc" />
+    <circle
+       style="fill:#ffffff;stroke-width:1.12092;stroke-linecap:round;stop-color:#000000"
+       id="circle697"
+       cx="3.4608846"
+       cy="2.8840704"
+       r="2.3190281" />
+    <rect
+       style="fill:#000000;stroke-width:1.76738;stroke-linecap:round;stop-color:#000000"
+       id="rect803"
+       width="2.7948267"
+       height="0.56913906"
+       x="2.0986078"
+       y="2.1212997" />
+    <rect
+       style="fill:#000000;stroke-width:1.76738;stroke-linecap:round;stop-color:#000000"
+       id="rect805"
+       width="2.7948267"
+       height="0.56913906"
+       x="2.0986078"
+       y="3.0962863" />
+  </g>
+</svg>

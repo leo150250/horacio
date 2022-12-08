@@ -5,6 +5,11 @@
 }
 .grade {
     display: inline-grid;
+    transform-origin: 0% 0%;
+    scroll-behavior: smooth;
+    padding-right: 1em;
+    padding-bottom: 1em;
+    overflow: hidden;
 }
 .grade * {
     position: relative;
@@ -112,6 +117,9 @@
 #editToolbar hr {
     margin: 0.5em;
 }
+#editToolbar p {
+    margin: 0.5em;
+}
 #editListagens {
     width: 20em;
     height: 100%;
@@ -139,7 +147,7 @@
     flex-wrap: wrap;
     flex: 1;
     overflow-y: scroll;
-    height: calc(100% - 3em);
+    height: calc(100% - 2.5em);
     align-content: flex-start;
 }
 #editListagens .listagem h2 {
@@ -196,9 +204,10 @@
 #editGrade {
     overflow: scroll;
     width: calc(100% - 20em);
-    height: calc(100% - 3em);
+    height: calc(100% - 2.5em);
     position: absolute;
-    top: 3em;
+    top: 2.5em;
+    overflow: hidden;
 }
 .editorCampo {
     position: absolute;
@@ -255,4 +264,33 @@
     position: absolute;
     z-index: 15;
     box-shadow: 0px 5px 10px #0004;
+}
+.scroll {
+    background-color: #DDD;
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    z-index: 10;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+}
+.scroll.v {
+    height: calc(100% - 1em);
+    right: 0;
+    border-left: 1px solid #CCC;
+    border-bottom: 1em solid #CCC;
+}
+.scroll.h {
+    width: calc(100% - 1em);
+    bottom: 0;
+    border-top: 1px solid #CCC;
+    border-right: 1em solid #CCC;
+}
+.scroller {
+    width: 1em;
+    height: 1em;
+    background-color: #2165bd;
+    position: absolute;
+    user-select: none;
 }
