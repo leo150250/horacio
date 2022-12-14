@@ -69,6 +69,26 @@
         outline-width: 1px;
     }
 }
+.grade .campo.destaqueAlerta {
+    outline: 3px dotted #417ac5;
+    animation: campoDestaque 1s infinite;
+    z-index: 1;
+}
+@keyframes campoDestaque {
+    0% {
+        outline-color: #9ac4fa;
+        outline-offset: 10em;
+    }
+    100% {
+        outline-color: #154e97;
+        outline-offset: 0em;
+    }
+    
+}
+.grade .campo b {
+    pointer-events: none;
+    border: none;
+}
 .grade .labelDia {
     text-align: center;
     width: 4em;
@@ -163,6 +183,11 @@
     cursor: grab;
     background-image: linear-gradient(-45deg, #FFF 0%, #FFF 75%, transparent);
 }
+#editListagens .listagem.centralizado {
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+}
 #editListagens .alerta {
     border: none;
     background-color: #FFF;
@@ -188,6 +213,12 @@
 }
 #editListagens .alerta p {
     margin: 0.5em;
+}
+#editListagens .alerta.info {
+    border-color: #9ac4fa;
+}
+#editListagens .alerta.aviso legend {
+    background-color: #9ac4fa;
 }
 #editListagens .alerta.aviso {
     border-color: #ED8;

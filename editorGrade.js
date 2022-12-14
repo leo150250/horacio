@@ -20,7 +20,13 @@ var corProfessor_lim=80;
 var corProfessor_r=240;
 var corProfessor_g=corProfessor_lim;
 var corProfessor_b=corProfessor_lim;
-function obterNovaCor() {
+var corDisciplina_alt=0;
+var corDisciplina_var=120;
+var corDisciplina_lim=16;
+var corDisciplina_r=176;
+var corDisciplina_g=corDisciplina_lim;
+var corDisciplina_b=corDisciplina_lim;
+function obterNovaCorProfessor() {
     let corRetornar="#";
     corRetornar+=corProfessor_r.toString(16).padStart(2,"0");
     corRetornar+=corProfessor_g.toString(16).padStart(2,"0");
@@ -72,14 +78,69 @@ function obterNovaCor() {
     //console.log(corRetornar);
     return corRetornar;
 }
+function obterNovaCorDisciplina() {
+    let corRetornar="#";
+    corRetornar+=corDisciplina_r.toString(16).padStart(2,"0");
+    corRetornar+=corDisciplina_g.toString(16).padStart(2,"0");
+    corRetornar+=corDisciplina_b.toString(16).padStart(2,"0");
+    switch (corDisciplina_alt) {
+        case 0: {
+            corDisciplina_g+=corDisciplina_var;
+            if (corDisciplina_g>=176) {
+                corDisciplina_g=176;
+                corDisciplina_alt=1;
+            }
+        } break;
+        case 1: {
+            corDisciplina_r-=corDisciplina_var;
+            if (corDisciplina_r<=corDisciplina_lim) {
+                corDisciplina_r=corDisciplina_lim;
+                corDisciplina_alt=2;
+            }
+        } break;
+        case 2: {
+            corDisciplina_b+=corDisciplina_var;
+            if (corDisciplina_b>=176) {
+                corDisciplina_b=176;
+                corDisciplina_alt=3;
+            }
+        } break;
+        case 3: {
+            corDisciplina_g-=corDisciplina_var;
+            if (corDisciplina_g<=corDisciplina_lim) {
+                corDisciplina_g=corDisciplina_lim;
+                corDisciplina_alt=4;
+            }
+        } break;
+        case 4: {
+            corDisciplina_r+=corDisciplina_var;
+            if (corDisciplina_r>=176) {
+                corDisciplina_r=176;
+                corDisciplina_alt=5;
+            }
+        } break;
+        case 5: {
+            corDisciplina_b-=corDisciplina_var;
+            if (corDisciplina_b<=corDisciplina_lim) {
+                corDisciplina_b=corDisciplina_lim;
+                corDisciplina_alt=0;
+            }
+        } break;
+    }
+    //console.log(corRetornar);
+    return corRetornar;
+}
 
 class Disciplina {
     constructor(argNome) {
         this.nome = argNome;
+        this.corCampo = obterNovaCorDisciplina();
         this.card = document.createElement("div");
         this.card.classList.add("card");
         this.card.innerHTML = argNome;
         this.card.draggable = true;
+        this.card.style.color = this.corCampo;
+        this.card.style.fontWeight = "bold";
         this.card.ondragstart=(e)=>{
             ferramentaCard=this;
             definirFerramenta("arrastarCardDisciplina");
@@ -94,7 +155,7 @@ class Disciplina {
 class Professor {
     constructor(argNome) {
         this.nome = argNome;
-        this.corCampo = obterNovaCor();
+        this.corCampo = obterNovaCorProfessor();
         this.card = document.createElement("div");
         this.card.classList.add("card");
         this.card.innerHTML = argNome;
@@ -128,6 +189,7 @@ class Escola {
         this.turmas=[];
         this.alertas=[];
         this.gradeExibicao=-1;
+        this.textoAlertas=document.createElement("p");
     }
     criarNovaDisciplina(argNome) {
         let novaDisciplina=new Disciplina(argNome);
@@ -150,17 +212,31 @@ class Escola {
         this.grades.push(novaGrade);
         return novaGrade;
     }
-    criarNovoAlerta(argTexto, argCampo, argSeveridade=0) {
+    criarNovoAlerta(argTexto, argCampo=null, argSeveridade=0) {
         let novoAlerta=new Alerta(argTexto,argCampo,argSeveridade);
+        if (this.alertas.length==0) {
+            div_listagemAlertas.appendChild(this.textoAlertas);
+        }
         this.alertas.push(novoAlerta);
-        button_listagemAlertas.classList.add("atencao");
+        this.textoAlertas.innerHTML=this.alertas.length+" alerta(s) identificado(s). Clique no alerta para ir até ele.";
+        if (argSeveridade!=0) {
+            button_listagemAlertas.classList.add("atencao");
+        }
         div_listagemAlertas.appendChild(novoAlerta.elemento);
     }
     limparAlertas() {
         this.alertas.forEach((alerta)=>{
-            div_listagemAlertas.removeChild(alerta.elemento);
+            if (alerta.elemento!=undefined) {
+                div_listagemAlertas.removeChild(alerta.elemento);
+            } else {
+                div_listagemAlertas.removeChild(alerta);
+            }
         })
         button_listagemAlertas.classList.remove("atencao");
+        div_listagemAlertas.classList.remove("centralizado");
+        if (this.textoAlertas.parentElement==div_listagemAlertas) {
+            div_listagemAlertas.removeChild(this.textoAlertas);
+        }
         this.alertas=[];
     }
     pesquisarDisciplinas(argString) {
@@ -185,18 +261,39 @@ class Escola {
         });
         return resultados;
     }
-    checarChoques() {
+    checarAlertas() {
         this.limparAlertas();
-        let choques=[];
+        let alertas=[];
         this.grades.forEach((grade)=>{
-            let resultadoChoques=grade.checarChoques();
-            if (resultadoChoques!=null) {
-                resultadoChoques.forEach((choque)=>{
-                    choques.push(choque);
+            let resultadoAlertas=grade.checarAlertas();
+            if (resultadoAlertas!=null) {
+                resultadoAlertas.forEach((alerta)=>{
+                    if (!alertas.includes(alerta)) {
+                        alertas.push(alerta);
+                    }
                 });
             }
         })
-        return choques;
+        alertas.forEach((alerta)=>{
+            switch (alerta[0]) {
+                case "vazio": {
+                    this.criarNovoAlerta("Célula vazia identificada.",alerta[1]);
+                } break;
+            }
+        })
+        if (this.alertas.length==0) {
+            let divInfoAlertas=document.createElement("div");
+            let imgInfoAlertas=document.createElement("img");
+            imgInfoAlertas.src="imagens/oba.svg";
+            divInfoAlertas.appendChild(imgInfoAlertas);
+            let pInfoAlertas=document.createElement("p");
+            pInfoAlertas.innerHTML="Oba! Nenhum alerta identificado.";
+            divInfoAlertas.appendChild(pInfoAlertas);
+            this.alertas.push(divInfoAlertas);
+            div_listagemAlertas.classList.add("centralizado");
+            div_listagemAlertas.appendChild(divInfoAlertas);
+        }
+        return alertas;
     }
     debug() {
         this.criarNovaDisciplina("Banco de dados I");
@@ -207,7 +304,7 @@ class Escola {
         this.criarNovoProfessor("Leandro Gabriel");
         this.criarNovoProfessor("Jorge Werneck");
         this.criarNovoProfessor("Sérgio Nunes");
-        console.log(this.checarChoques());
+        console.log(this.checarAlertas());
     }
     gradeExibida() {
         return this.grades[this.gradeExibicao].elemento;
@@ -286,17 +383,21 @@ class Grade {
             elemento.style.left=argPosicao;
         });
     }
-    checarChoques() {
-        let choques=[];
+    checarAlertas() {
+        let alertas=[];
+        let alertasTipos=[];
         this.dias.forEach((dia)=>{
-            let resultadoChoques=dia.checarChoques();
-            if (resultadoChoques!=null) {
-                resultadoChoques.forEach((choque)=>{
-                    choques.push(choque);
+            let resultadoAlertas=dia.checarAlertas();
+            if (resultadoAlertas!=null) {
+                resultadoAlertas.forEach((alerta)=>{
+                    if (!alertasTipos.includes(alerta[0])) {
+                        alertas.push(alerta);
+                        alertasTipos.push(alerta[0]);
+                    }
                 });
             }
         })
-        return choques;
+        return alertas;
     }
     exibirGrade() {
         this.escola.gradeExibicao=this.indiceGrades;
@@ -333,17 +434,21 @@ class HorarioDia {
        }
        return textoDia;
     }
-    checarChoques() {
-        let choques=[];
+    checarAlertas() {
+        let alertas=[];
+        let alertasTipos=[];
         this.momentos.forEach((momento)=>{
-            let resultadoChoques=momento.checarChoques();
-            if (resultadoChoques!=null) {
-                resultadoChoques.forEach((choque)=>{
-                    choques.push(choque);
+            let resultadoAlertas=momento.checarAlertas();
+            if (resultadoAlertas!=null) {
+                resultadoAlertas.forEach((alerta)=>{
+                    if (!alertasTipos.includes(alerta[0])) {
+                        alertas.push(alerta);
+                        alertasTipos.push(alerta[0]);
+                    }
                 });
             }
         })
-        return choques;
+        return alertas;
     }
 }
 class HorarioMomento {
@@ -376,8 +481,9 @@ class HorarioMomento {
         this.campos.push(novoCampo);
         return novoCampo;
     }
-    checarChoques() {
+    checarAlertas() {
         let alertas=[];
+        let alertasTipos=[];
         let professoresChecagem=[];
         let relacaoProfessoresCampos=[];
         this.campos.forEach((campo)=>{
@@ -387,7 +493,10 @@ class HorarioMomento {
             let resultadoAlertas=campo.checarAlertas();
             if (resultadoAlertas!=null) {
                 resultadoAlertas.forEach((alerta)=>{
-                    alertas.push(alerta);
+                    if (!alertasTipos.includes(alerta[0])) {
+                        alertas.push(alerta);
+                        alertasTipos.push(alerta[0]);
+                    }
                 });
             }
             if (campo.professor!=null) {
@@ -491,7 +600,7 @@ class HorarioCampo {
             if (this.disciplina==null) {
                 this.elemento.innerHTML+="-";
             } else {
-                this.elemento.innerHTML+=this.disciplina.nome;
+                this.elemento.innerHTML+="<b style='color: "+this.disciplina.corCampo+"'>"+this.disciplina.nome+"</b>";
             }
             this.elemento.innerHTML+="<br>";
             if (this.professor==null) {
@@ -518,12 +627,20 @@ class HorarioCampo {
         }
     }
     checarAlertas() {
+        let alertas=[];
         if (this.professor!=null && this.disciplina==null) {
             escola.criarNovoAlerta("O docente "+this.professor.nome+" não possui disciplina.",this,1);
         }
         if (this.disciplina!=null && this.professor==null) {
             escola.criarNovoAlerta("A disciplina "+this.disciplina.nome+" não possui docente",this,1);
         }
+        if (this.disciplina==null && this.professor==null && this.horario.tipo=="A") {
+            let novoAlerta=[];
+            novoAlerta[0]="vazio";
+            novoAlerta[1]=this;
+            alertas.push(novoAlerta);
+        }
+        return alertas;
     }
 }
 class Alerta {
@@ -534,18 +651,23 @@ class Alerta {
         this.elemento=document.createElement("fieldset");
         this.elemento.classList.add("alerta");
         switch (this.severidade) {
+            case 0: this.elemento.classList.add("info"); break;
             case 1: this.elemento.classList.add("aviso"); break;
             case 2: this.elemento.classList.add("erro"); break;
         }
         let cabecalhoAlerta=document.createElement("legend");
-        cabecalhoAlerta.innerHTML=this.campo.horario.dia.obterDiaExtenso()+", "+this.campo.horario.obterMomentoFormatado();
         this.elemento.appendChild(cabecalhoAlerta);
         let paragrafoTexto=document.createElement("p");
         paragrafoTexto.innerHTML=this.texto;
         this.elemento.appendChild(paragrafoTexto);
         if (this.campo!=null) {
+            cabecalhoAlerta.innerHTML=this.campo.horario.dia.obterDiaExtenso()+", "+this.campo.horario.obterMomentoFormatado();
             this.elemento.onclick=(e)=>{
                 this.campo.elemento.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+                this.campo.elemento.classList.add("destaqueAlerta");
+                setTimeout(()=>{
+                    this.campo.elemento.classList.remove("destaqueAlerta");
+                },3000);
             }
             this.elemento.style.cursor="pointer";
         }
@@ -879,7 +1001,7 @@ div_editorCampoEspecial.addEventListener("mousedown",(e)=>{
 div_editGrade.appendChild(div_editorCampoEspecial);
 
 function calcularAlertas() {
-    console.log(escola.checarChoques());
+    console.log(escola.checarAlertas());
 }
 
 //Listagens
