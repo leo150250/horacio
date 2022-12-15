@@ -4,6 +4,7 @@ const div_wrapperEditorGrade=document.getElementById("wrapperEditorGrade");
 const div_editGrade=document.getElementById("editGrade");
 const div_editToolbar=document.getElementById("editToolbar");
 const div_editListagens=document.getElementById("editListagens");
+const input_editorFiltro=document.getElementById("editorFiltro");
 
 var ferramenta="editar";
 let ferramentaAnterior=ferramenta;
@@ -309,6 +310,11 @@ class Escola {
     gradeExibida() {
         return this.grades[this.gradeExibicao].elemento;
     }
+    filtrar(argFiltro) {
+        this.grades.forEach((grade)=>{
+            grade.filtrar(argFiltro);
+        })
+    }
 }
 class Grade {
     constructor(argGrade,argEscola) {
@@ -405,6 +411,11 @@ class Grade {
         zoomPadrao();
         atualizarScrollers();
     }
+    filtrar(argFiltro) {
+        this.dias.forEach((dia)=>{
+            dia.filtrar(argFiltro);
+        })
+    }
 }
 class HorarioDia {
     constructor(argDia) {
@@ -449,6 +460,11 @@ class HorarioDia {
             }
         })
         return alertas;
+    }
+    filtrar(argFiltro) {
+        this.momentos.forEach((momento)=>{
+            momento.filtrar(argFiltro);
+        })
     }
 }
 class HorarioMomento {
@@ -526,6 +542,11 @@ class HorarioMomento {
             }
         });
         return alertas;
+    }
+    filtrar(argFiltro) {
+        this.campos.forEach((campo)=>{
+            campo.filtrar(argFiltro);
+        });
     }
 }
 class HorarioCampo {
@@ -642,6 +663,20 @@ class HorarioCampo {
         }
         return alertas;
     }
+    filtrar(argFiltro) {
+        if (argFiltro=="") {
+            this.elemento.classList.remove("filtro");
+            this.elemento.classList.remove("desfiltro");
+        } else {
+            if (this.elemento.innerText.toLowerCase().includes(argFiltro.toLowerCase())) {
+                this.elemento.classList.add("filtro");
+                this.elemento.classList.remove("desfiltro");
+            } else {
+                this.elemento.classList.add("desfiltro");
+                this.elemento.classList.remove("filtro");
+            }
+        }
+    }
 }
 class Alerta {
     constructor(argTexto, argCampo=null, argSeveridade=0) {
@@ -684,6 +719,16 @@ function editor_montarCalendario(argCalendario) {
     novaGrade.gerarGrade();
     novaGrade.exibirGrade();
     escola.debug();
+}
+function editor_novoCalendario() {
+    
+}
+function editor_filtrar() {
+    escola.filtrar(input_editorFiltro.value.toLowerCase());
+}
+function editor_limparFiltro() {
+    input_editorFiltro.value="";
+    editor_filtrar();
 }
 
 var campoSendoEditado=null

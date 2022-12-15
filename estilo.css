@@ -204,6 +204,7 @@ button.atencao {
     width: calc(100% - 1em);
     text-align: left;
     padding: 0em 0.5em 0em 3.5em;
+    z-index: 1;
 }
 #conteudo h2, #conteudo h3, #conteudo h4, #conteudo h5, #conteudo h6 {
     background-color: #2165bd30;

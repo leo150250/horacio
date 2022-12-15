@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="16"
-   height="16"
-   viewBox="0 0 4.2333333 4.2333333"
+   width="24"
+   height="24"
+   viewBox="0 0 6.3499999 6.3499999"
    version="1.1"
    id="svg5"
    inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
@@ -24,9 +24,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="31.786133"
-     inkscape:cx="9.217856"
-     inkscape:cy="8.8403329"
+     inkscape:zoom="22.47619"
+     inkscape:cx="11.96822"
+     inkscape:cy="12.502119"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
@@ -48,21 +48,34 @@
      inkscape:label="Camada 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <path
+       id="rect436"
+       style="fill:#333333;stroke:#333333;stroke-width:0.52916666;stroke-linecap:round;stop-color:#000000"
+       d="m 0.87884409,1.3051505 c -0.10240339,0 -0.18483844,0.082435 -0.18483844,0.1848384 v 0.2435173 h -0.0391192 c -0.12935166,0 -0.2332485,0.1038968 -0.2332485,0.2332485 V 4.758891 c 0,0.070397 0.0307406,0.1332983 0.0797055,0.1760365 0.0306401,0.035606 0.0775073,0.057212 0.1349614,0.057212 h 0.0185816 4.48062065 0.018582 c 0.1191249,0 0.2359436,-0.09345 0.26161,-0.2097769 L 5.969725,2.2713959 C 5.9953914,2.1550689 5.920148,2.0616189 5.8010233,2.0616189 H 5.3692446 v -0.094864 c 0,-0.1293517 -0.1043858,-0.2332485 -0.2337375,-0.2332485 H 2.8954412 V 1.4899889 c 0,-0.1024034 -0.082435,-0.1848384 -0.1848384,-0.1848384 z" />
     <rect
-       style="fill:#ffffff;stroke-width:0.529167;stroke-linecap:round;stop-color:#000000"
+       style="fill:#d4aa00;stroke-width:0.618471;stroke-linecap:round;stop-color:#000000"
        id="rect1196"
-       width="4.2333331"
-       height="2.7884929"
-       x="9.4595336e-08"
-       y="0.87224972"
-       ry="0.19977264" />
+       width="4.9477654"
+       height="3.2590888"
+       x="0.42144731"
+       y="1.7332928"
+       ry="0.23348698" />
     <rect
-       style="fill:#ffffff;stroke-width:0.529167;stroke-linecap:round;stop-color:#000000"
+       style="fill:#d4aa00;stroke-width:0.618471;stroke-linecap:round;stop-color:#000000"
        id="rect1198"
-       width="1.8835986"
-       height="0.62428951"
-       x="0.23306817"
-       y="0.5059998"
-       ry="0.15815334" />
+       width="2.2014813"
+       height="0.7296468"
+       x="0.69384879"
+       y="1.3052332"
+       ry="0.18484385" />
+    <rect
+       style="fill:#ffcc00;stroke-width:0.593518;stroke-linecap:round;stop-color:#000000"
+       id="rect434"
+       width="4.9477654"
+       height="3.0014169"
+       x="1.5229678"
+       y="2.1110404"
+       ry="0.2150269"
+       transform="matrix(1,0,-0.21545811,0.97651308,0,0)" />
   </g>
 </svg>

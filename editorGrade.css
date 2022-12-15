@@ -85,6 +85,13 @@
     }
     
 }
+.grade .campo.filtro {
+    filter: invert(1);
+    z-index: 1;
+}
+.grade .campo.desfiltro {
+    filter: blur(0.5em);
+}
 .grade .campo b {
     pointer-events: none;
     border: none;
@@ -217,7 +224,7 @@
 #editListagens .alerta.info {
     border-color: #9ac4fa;
 }
-#editListagens .alerta.aviso legend {
+#editListagens .alerta.info legend {
     background-color: #9ac4fa;
 }
 #editListagens .alerta.aviso {

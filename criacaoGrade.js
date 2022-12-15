@@ -12,6 +12,7 @@ const div_wrapperAutoCalendarioConfirmar=document.getElementById("wrapperCalenda
 var numTurnos=1;
 var calendario=[[2,3,4,5,6],['07:30A', '08:20A', '09:10A', '10:00I', '10:10A', '11:00A', '11:50F'],['Informática A', 'Informática B', 'Matemática A', 'Matemática B', 'Agropecuária']];
 var numTurmas=1;
+var turnosAdicionais=[];
 
 var mascoteAcionado=false;
 
@@ -215,6 +216,9 @@ function adicionarNovoTurno() {
 	novoTitulo.innerHTML="Turno #"+numTurnos;
 	let novoBotaoRemover=document.createElement("button");
 	novoBotaoRemover.innerHTML="<img src=\"imagens/remocao.svg\"> Remover";
+	novoBotaoRemover.onclick=(e)=>{
+		removerTurno(numTurnos);
+	};
 	novoTitulo.appendChild(novoBotaoRemover);
 	div_turnosAdicionais.appendChild(novoTitulo);
 	let novoDivForm=document.createElement("div");
@@ -253,16 +257,6 @@ function adicionarNovoTurno() {
 		"minutos")[0]);
 	div_turnosAdicionais.appendChild(novoDivForm);
 	autoAtualizarTurnos();
-	/*
-	<h2>Turno #1</h2>
-	<div class="flex">
-		<span class="form"><label>Horário de início</label><input id="horario_t1" type="time" value="07:30" onchange="autoAtualizarTurnos()" required></span>
-		<span class="form"><label>Nº de aulas</label><input id="aulas_t1" type="number" min="1" max="10" value="5" onchange="autoAtualizarTurnos()" required></span>
-		<span class="form"><label>Duração da aula</label><input id="duracao_t1" type="number" min="5" max="180" value="50" onchange="autoAtualizarTurnos()" required><small>minutos</small></span>
-		<span class="form"><label>Nº de aulas antes do intervalo</label><input id="aulasIntervalo_t1" type="number" min="1" max="10" value="3" onchange="autoAtualizarTurnos()" required></span>
-		<span class="form"><label>Duração do intervalo</label><input id="duracaoIntervalo_t1" type="number" min="5" max="180" value="10" onchange="autoAtualizarTurnos()" required><small>minutos</small></span>
-	</div>
-	*/
 }
 function calcularTurno(argTurno) {
 	let resultado=[];
