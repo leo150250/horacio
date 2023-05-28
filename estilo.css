@@ -36,7 +36,7 @@ body {
     bottom: 0px;
     z-index: 1;
 }
-button {
+button, a.botao {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 0.5em;
     background-color: #2165bd;
@@ -45,23 +45,26 @@ button {
     border: 1px solid #D8D8D8;
     border-radius: 0.5em;
     position: relative;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
 }
-button.secundario {
+button.secundario, a.botao.secundario {
     border: 1px solid #2165bd;
     background-color: #F8F8F8;
     color: #111;
 }
-.clicavel, button {
+.clicavel, button, a.botao {
     cursor: pointer;
 }
-.clicavel:hover, button:hover, button:focus {
+.clicavel:hover, button:hover, button:focus, a.botao:hover, a.botao:focus {
     background-color: #417ac5;
     color: #FFF;
 }
-.clicavel:active, button:active {
+.clicavel:active, button:active, a.botao:active {
     background-color: #154e97;
 }
-button > h2 {
+button > h2, a.botao > h2 {
     margin-top: -0.25em !important;
     margin-left: -0.25em !important;
     margin-right: -0.25em !important;
@@ -70,7 +73,7 @@ button > h2 {
     top: 0px;
     left: 0px;
 }
-h2 > button {
+h2 > button, h2 > a.botao {
     position: absolute;
     right: 0px;
     height: 100%;
@@ -78,15 +81,15 @@ h2 > button {
     font-size: initial;
     border-radius: 0;
 }
-button[disabled] {
+button[disabled], a.botao[disabled] {
     background-color: #BBB;
     cursor: unset;
 }
-button > img {
+button > img, a.botao > img {
     vertical-align: baseline;
     /* margin: 0em 0.5em; */
 }
-button.atencao {
+button.atencao, a.botao.atencao {
     animation: botaoAlerta 1s infinite;
     color: #FD0;
     background-color: #000;
@@ -224,6 +227,16 @@ button.atencao {
 .flex.largo > * {
     flex: 1;
     position: relative;
+}
+.flex .largo {
+    flex-basis: auto;
+    flex-grow: 10;
+}
+.largo button {
+    width: 100%;
+}
+.largo a.botao {
+    width: calc(100% - 1em - 2px);
 }
 .scroller {
     /* overflow-y: auto; */
