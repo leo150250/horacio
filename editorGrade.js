@@ -301,10 +301,10 @@ class Escola {
         this.criarNovaDisciplina("Estrutura de dados");
         this.criarNovaDisciplina("Matemática");
         this.criarNovaDisciplina("Português");
-        this.criarNovoProfessor("Andréia Maciel");
-        this.criarNovoProfessor("Leandro Gabriel");
-        this.criarNovoProfessor("Jorge Werneck");
-        this.criarNovoProfessor("Sérgio Nunes");
+        this.criarNovoProfessor("Fulano da Silva");
+        this.criarNovoProfessor("Ciclano Barbosa");
+        this.criarNovoProfessor("Beltrano de Oliveira");
+        this.criarNovoProfessor("Ergulano Silva Sauro");
         console.log(this.checarAlertas());
     }
     gradeExibida() {
