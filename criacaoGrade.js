@@ -11,7 +11,7 @@ const div_wrapperAutoCalendarioConfirmar=document.getElementById("wrapperCalenda
 
 var numTurnos=1;
 var calendario=[[2,3,4,5,6],['07:30A', '08:20A', '09:10A', '10:00I', '10:10A', '11:00A', '11:50F'],['Informática A', 'Informática B', 'Matemática A', 'Matemática B', 'Agropecuária']];
-var numTurmas=1;
+var numTurmas=0;
 var turnosAdicionais=[];
 
 var mascoteAcionado=false;
@@ -298,17 +298,40 @@ function abrirFormTurmas() {
 	autoAtualizarTurmas();
 	sumirMascote();
 }
+function adicionarNovaTurma() {
+	let inputNomeTurma=document.getElementById("nomeNovaTurma");
+	let p_novaTurma=document.createElement("p");
+	let novoInput=gerarInput("nomeTurma_"+(numTurmas+1),"Turma #"+(numTurmas+1),"text","",[["onchange","autoAtualizarTurmas()"],["removivel",null]]);
+	let novoBotaoRemover=document.createElement("button");
+	novoBotaoRemover.innerHTML="<img src=\"imagens/remocao.svg\">";
+	novoBotaoRemover.style.float="right";
+	novoInput[0].appendChild(novoBotaoRemover);
+	novoInput[1].value=inputNomeTurma.value;
+	p_novaTurma.appendChild(novoInput[0]);
+	div_turmasAdicionais.appendChild(p_novaTurma);
+	calendario[2].push(inputNomeTurma.value);
+	numTurmas++;
+	inputNomeTurma.value=null;
+	inputNomeTurma.focus();
+	autoAtualizarTurmas();
+}
+document.getElementById("nomeNovaTurma").onkeydown=(e)=>{
+	console.log(e);
+	if (e.keyCode == 13) {
+		adicionarNovaTurma();
+	}
+}
 function autoAtualizarTurmas() {
 	calendario[2]=[];
 	let maisUmaTurma=false;
 	for(let turma=1; turma<=numTurmas; turma++) {
-		maisUmaTurma=false;
+		//maisUmaTurma=false;
 		let nomeTurma=document.getElementById("nomeTurma_"+turma).value;
 		if (turma>1 && nomeTurma!="") {
-			maisUmaTurma=true;
+			//maisUmaTurma=true;
 			calendario[2].push(nomeTurma);
 		} else if (turma==1 && nomeTurma!="") {
-			maisUmaTurma=true;
+			//maisUmaTurma=true;
 			calendario[2].push(nomeTurma);
 			document.getElementById("botaoConcluirEdicao").disabled=false;
 		}

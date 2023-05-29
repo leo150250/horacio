@@ -68,8 +68,9 @@
                 <div class="flex largo">
                     <div style="flex-basis: 20em">
                         <h2>Inserção de turmas</h2>
-                        <p>Digite o nome das turmas abaixo</p>
-                        <p><span class="form"><label>Turma #1</label><input id="nomeTurma_1" type="text" onchange="autoAtualizarTurmas()" required style="width: 100%"></span><small>Aperte ENTER para aplicar, e adicionar mais turmas</small></p>
+                        <p>Digite o nome de uma turma abaixo para incluí-la na grade.</p>
+                        <p><span class="form"><input id="nomeNovaTurma" type="text" onsubmit="adicionarNovaTurma()" removivel><button style="float: right" title="Inserir turma à grade" onclick="adicionarNovaTurma()"><img src="imagens/confirmar.svg"></button></span></p>
+                        <h2>Turmas</h2>
                         <div id="turmasAdicionais"></div>
                     </div>
                     <div style="flex-basis: 50%">
