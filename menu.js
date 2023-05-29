@@ -32,12 +32,8 @@ const ul_opcoes = document.createElement("ul");
 div_menu.appendChild(ul_opcoes);
 div_wrapperMenu.appendChild(div_menu);
 document.body.appendChild(div_wrapperMenu);
-menu_novaOpcao("Home","index.html");
-if (gestor) {
-    menu_novaOpcao("Gestão","gestao.html");
-}
-menu_novaOpcao("Logoff","#");
 
+//Funções
 function menu_novaOpcao(argOpcao,argLink,argIcone=null) {
     let novaOpcao_li=document.createElement("li");
     let novaOpcao_a=document.createElement("a");
@@ -64,3 +60,12 @@ div_wrapperMenu.onmouseleave=(e)=>{
         document.body.addEventListener("click",alternarExibirMenu);
     }
 }
+
+//Criação do menu
+menu_novaOpcao("Home","index.html");
+if (gestor) {
+    menu_novaOpcao("Gestão de Horários","gestao.html");
+    menu_novaOpcao("Cadastro de Docentes","#");
+    menu_novaOpcao("Cadastro de Disciplinas","#");
+}
+menu_novaOpcao("Logoff","#");
