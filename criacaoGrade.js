@@ -27,6 +27,9 @@ var acoesMascote=[
 function executarExplicacaoCriacaoAuto() {
 	balaoMascote(acoesMascote[acaoMascote][0],[[acoesMascote[acaoMascote][1],acoesMascote[acaoMascote][2]]],acoesMascote[acaoMascote][3]);
 	acaoMascote++;
+	if (acaoMascote==acoesMascote.length) {
+		acaoMascote=0;
+	}
 }
 
 function fecharForms() {

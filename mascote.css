@@ -71,3 +71,27 @@
 #mascote .balao hr {
     border: 1px solid #2165bd;
 }
+#botaoMascote {
+    background-color: #2165bd;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    box-shadow: 0px 0px 10px #0008;
+    border-start-end-radius: 1em;
+    overflow: hidden;
+    z-index: 10;
+    padding: 0.5em;
+    cursor: pointer;
+    transition: 0.2s;
+}
+#botaoMascote:hover {
+    background-color: #417ac5;
+    color: #FFF;
+}
+#botaoMascote:active {
+    background-color: #154e97;
+}
+#botaoMascote[recolhido] {
+    height: 0;
+    padding: 0;
+}

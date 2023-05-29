@@ -24,21 +24,19 @@ div_mascote.appendChild(img_mascoteMao);
 div_mascote.appendChild(div_balaoMascote);
 document.body.appendChild(div_mascote);
 
+const div_botaoMascote=document.createElement("div");
+div_botaoMascote.id="botaoMascote";
+div_botaoMascote.setAttribute("recolhido",null);
+div_botaoMascote.onclick=aparecerMascote;
+const img_botaoMascote=document.createElement("img");
+img_botaoMascote.src="imagens/iconeAjuda.svg";
+div_botaoMascote.appendChild(img_botaoMascote);
+document.body.appendChild(div_botaoMascote);
+
+var ajudaInicial=null;
+
 var obterAjuda=false;
 
-/*
-<div id="mascote" style="display: none">
-	<img src="imagens/mascote.svg">
-	<div id="balaoMascote" class="balao">
-		<p>Parece que você está tentando construir um horário escolar. Precisa de ajuda?</p>
-		<hr>
-		<p style="text-align: right">
-			<a href="#" onclick="balaoMascote('Ah, certo... Erm... Então vamos lá... Err...<br><br>Desculpe, vou ser sincero, não sei o que fazer agora. Ninguém nunca me deixou chegar até aqui... Me perdoe!',[['Ok',null]])">Sim</a>
-			<a href="#" onclick="sumirMascote()">Não</a>
-		</p>
-	</div>
-</div>
-*/
 function balaoMascote(argTexto,argBotoes,argIrPara=null,argEspecial=null) {
     div_balaoMascote.innerHTML="";
     let novoTexto=document.createElement("p");
@@ -65,12 +63,37 @@ function balaoMascote(argTexto,argBotoes,argIrPara=null,argEspecial=null) {
     if (argIrPara!=null) {
         reposicionarMascote(argIrPara);
     }
+    if (ajudaInicial==null) {
+        ajudaInicial="balaoMascote(";
+        ajudaInicial+="\""+argTexto+"\"";
+        ajudaInicial+=",[";
+        for (let i=0; i<argBotoes.length; i++) {
+            if (i>0) {
+                ajudaInicial+=",";
+            }
+            ajudaInicial+="[";
+            ajudaInicial+="\""+argBotoes[i][0]+"\"";
+            if (argBotoes[i][1]==null) {
+                ajudaInicial+=",null";
+            } else {
+                ajudaInicial+=",\""+argBotoes[i][1].replaceAll('"',"\\\"")+"\"";
+            }
+            ajudaInicial+="]";
+        }
+        ajudaInicial+="]);";
+        console.log(ajudaInicial);
+    }
 }
 function aparecerMascote() {
     reposicionarMascote(null);
+    div_botaoMascote.setAttribute("recolhido",null);
+    if (ajudaInicial!=null) {
+        eval(ajudaInicial);
+    }
 }
 function sumirMascote() {
     reposicionarMascote("!");
+    div_botaoMascote.removeAttribute("recolhido");
 }
 function reposicionarMascote(argIrPara) {
     let posicao=[];
