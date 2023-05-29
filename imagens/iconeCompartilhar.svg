@@ -49,26 +49,27 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:none;stroke:#ececec;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:none;stroke:#cccccc;stroke-width:0.79374999;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
        d="M 4.95365,1.7485377 1.3515049,3.1734757 4.95365,4.5984141"
        id="path630" />
     <circle
-       style="fill:#ffd42a;stroke:none;stroke-width:0.441303;stroke-linecap:round;stop-color:#000000"
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.330729;stroke-linecap:round;stop-color:#000000"
        id="path1226"
        cx="4.95365"
        cy="1.7485377"
-       r="0.6108734" />
-    <circle
-       style="fill:#d4aa00;stroke:none;stroke-width:0.441303;stroke-linecap:round;stop-color:#000000"
+       r="1.1453875" />
+    <ellipse
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.329071;stroke-linecap:round;stop-color:#000000"
        id="circle572"
        cx="4.95365"
        cy="4.5984139"
-       r="0.6108734" />
+       rx="1.1331092"
+       ry="1.1462168" />
     <circle
-       style="fill:#ffe680;stroke:none;stroke-width:0.441303;stroke-linecap:round;stop-color:#000000"
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.330729;stroke-linecap:round;stop-color:#000000"
        id="circle574"
        cx="1.3515049"
        cy="3.1734757"
-       r="0.6108734" />
+       r="1.1453875" />
   </g>
 </svg>
